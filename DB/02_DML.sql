@@ -181,12 +181,12 @@ INSERT INTO Detalle_Transaccion (id_transaccion, id_producto, cantidad, precio_u
 (29,17,60,20.00),(29,18,50,25.00),
 (30,19,100,2.00),(30,20,120,1.50);
 
-INSERT INTO Venta (id_cliente, id_transaccion) VALUES
+INSERT INTO Venta (id_transaccion, id_cliente) VALUES
 (1,1),(2,2),(3,3),(4,4),(5,5),
 (6,6),(7,7),(8,8),(9,9),(10,10),
 (11,11),(12,12),(13,13),(14,14),(15,15),
 (16,16),(17,17),(18,18),(19,19),(20,20);
 
-INSERT INTO Compra (id_proveedor, id_transaccion) VALUES
-(1,21),(2,22),(3,23),(4,24),(5,25),
-(6,26),(7,27),(8,28),(9,29),(10,30);
+INSERT INTO Compra (id_transaccion, id_proveedor) VALUES
+(21,1),(22,2),(23,3),(24,4),(25,5),
+(26,6),(27,7),(28,8),(29,9),(30,10);

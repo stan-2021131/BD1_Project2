@@ -3,14 +3,14 @@
 */
 DROP TABLE IF EXISTS Venta;
 DROP TABLE IF EXISTS Compra;
-DROP TABLE IF EXISTS Producto_Transaccion;
+DROP TABLE IF EXISTS Detalle_Transaccion;
 DROP TABLE IF EXISTS Transaccion;
 DROP TABLE IF EXISTS Producto;
 DROP TABLE IF EXISTS Empleado;
 DROP TABLE IF EXISTS Cliente;
 DROP TABLE IF EXISTS Persona;
 DROP TABLE IF EXISTS Proveedor;
-DROP TABLE IF EXISTS Forma_pago;
+DROP TABLE IF EXISTS Forma_Pago;
 DROP TABLE IF EXISTS Categoria;
 
 
@@ -67,25 +67,51 @@ CREATE TABLE IF NOT EXISTS Transaccion(
     id_transaccion BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fecha DATE NOT NULL,
     id_encargado BIGINT NOT NULL REFERENCES Empleado(id_empleado),
-    id_forma_pago BIGINT NOT NULL REFERENCES Forma_pago(id_forma)
+    id_forma_pago BIGINT NOT NULL REFERENCES Forma_Pago(id_forma)
 );
 
 CREATE TABLE IF NOT EXISTS Detalle_Transaccion(
     id_transaccion BIGINT NOT NULL REFERENCES Transaccion(id_transaccion),
     id_producto BIGINT NOT NULL REFERENCES Producto(id_producto),
     cantidad INT NOT NULL,
-    precio_unitario DECIMAL(10, 2) NOT NULL, -- Se almacena el precio en el momento del registro y evitar problemas con cambios de precio
+    precio_unitario DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY(id_transaccion, id_producto)
 );
 
 CREATE TABLE IF NOT EXISTS Compra(
-    id_proveedor BIGINT NOT NULL REFERENCES Proveedor(id_proveedor),
-    id_transaccion BIGINT NOT NULL REFERENCES Transaccion(id_transaccion),
-    PRIMARY KEY (id_proveedor, id_transaccion)
+    id_transaccion BIGINT PRIMARY KEY REFERENCES Transaccion(id_transaccion),
+    id_proveedor BIGINT NOT NULL REFERENCES Proveedor(id_proveedor)
 );
 
 CREATE TABLE IF NOT EXISTS Venta(
-    id_cliente BIGINT NOT NULL REFERENCES Cliente(id_cliente),
-    id_transaccion BIGINT NOT NULL REFERENCES Transaccion(id_transaccion),
-    PRIMARY KEY (id_cliente, id_transaccion)
+    id_transaccion BIGINT PRIMARY KEY REFERENCES Transaccion(id_transaccion),
+    id_cliente BIGINT NOT NULL REFERENCES Cliente(id_cliente)
 );
+
+/*
+    Índices
+*/
+
+-- Búsqueda de productos por categoría
+CREATE INDEX idx_producto_categoria 
+ON Producto(id_categoria);
+
+-- Reportes por fecha de transacciones
+CREATE INDEX idx_transaccion_fecha 
+ON Transaccion(fecha);
+
+-- JOIN entre detalle y producto
+CREATE INDEX idx_detalle_producto 
+ON Detalle_Transaccion(id_producto);
+
+-- JOIN entre detalle y transacción
+CREATE INDEX idx_detalle_transaccion 
+ON Detalle_Transaccion(id_transaccion);
+
+-- Historial de compras por cliente
+CREATE INDEX idx_venta_cliente 
+ON Venta(id_cliente);
+
+-- Compras por proveedor
+CREATE INDEX idx_compra_proveedor 
+ON Compra(id_proveedor);
