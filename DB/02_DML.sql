@@ -1,3 +1,7 @@
+INSERT INTO Rol (rol) VALUES
+('Administrador'),
+('Trabajador');
+
 INSERT INTO Categoria (categoria) VALUES
 ('Bebidas'), ('Snacks'), ('Lácteos'), ('Limpieza'), ('Panadería'),
 ('Enlatados'), ('Carnes'), ('Verduras'), ('Frutas'), ('Congelados'),
@@ -54,12 +58,12 @@ INSERT INTO Cliente (nit, id_persona) VALUES
 ('1472583',16),('3692581',17),('9517536',18),('7531594',19),('4568523',20),
 ('8524569',21),('7413698',22),('9638527',23),('1598523',24),('3572589',25);
 
-INSERT INTO Empleado (usuario, contrasena, id_persona) VALUES
-('admin','admin123',26),
-('cajero1','caja123',27),
-('cajero2','caja456',28),
-('supervisor','super123',29),
-('gerente','gerente123',30);
+INSERT INTO Empleado (usuario, contrasena, id_persona, id_rol) VALUES
+('admin','admin123',26,1),
+('cajero1','caja123',27,2),
+('cajero2','caja456',28,2),
+('supervisor','super123',29,2),
+('gerente','gerente123',30,1);
 
 INSERT INTO Producto (producto, descripcion, stock, precio_compra, precio_venta, id_categoria) VALUES
 ('Coca Cola 1L','Bebida gaseosa',100,5.00,7.50,1),
