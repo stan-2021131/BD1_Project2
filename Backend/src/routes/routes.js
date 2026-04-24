@@ -5,11 +5,12 @@ import formaPagoRoutes from "./forma_pago_routes.js";
 import personaRoutes from "../routes/persona_routes.js"
 import proveedorRoutes from "../routes/proveedor_routes.js";
 import clienteRoutes from "../routes/cliente_routes.js";
+import empleadoRoutes from "../routes/empleado_routes.js";
 
 const router = Router();
 
 router.get('/test', (req, res) => {
-    res.send("Backend funcionando");
+    res.json({ message: "Backend funcionando" });
 });
 
 router.use('/categoria', categoriaRoutes);
@@ -18,5 +19,6 @@ router.use('/forma_pago', formaPagoRoutes);
 router.use('/persona', personaRoutes);
 router.use('/proveedor', proveedorRoutes);
 router.use('/cliente', clienteRoutes);
+router.use('/empleado', empleadoRoutes);
 
 export default router;

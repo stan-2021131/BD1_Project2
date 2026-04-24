@@ -62,12 +62,12 @@ INSERT INTO Cliente (nit, id_persona) VALUES
 ('1234567',(SELECT id_persona FROM Persona WHERE nombre = 'Cliente Eliminado'));
 
 INSERT INTO Empleado (usuario, contrasena, id_persona, id_rol) VALUES
-('admin','admin123',26,1),
-('cajero1','caja123',27,2),
-('cajero2','caja456',28,2),
-('supervisor','super123',29,2),
-('gerente','gerente123',30,1),
-('empleado_eliminado','empleado_eliminado',(SELECT id_persona FROM Persona WHERE nombre = 'Empleado Eliminado'),2);
+('admin','$2b$10$NyLpk0e6.o7OtvZ1RL7/nuLDIMemPgpUxf4glZOTk8QsptQvhE36K',26,1), -- Constraseña admin: admin123
+('cajero1','$2b$10$P2bLGWlFQEhWCJkD0Z4AO.uvK8GitSJDs562LCranP4DM4P1nap2S',27,2), -- Constraseña cajero1: caja123
+('cajero2','$2b$10$i3Yp9djqzIz2yzBGmI59X.iwAtirVYeaZ9yA0XmB/AR6fsbaK41se',28,2), -- Constraseña cajero2: caja456
+('supervisor','$2b$10$wjpI1ix5Ef6po86lh30VleVQcQWb7P/xZLiGIdtxbFrT4JbAoF5Ve',29,2), -- Constraseña supervisor: super123
+('gerente','$2b$10$3ekskCFt1lJJjx1qBewB6.v7y39t8/RvppiHjNM6FOoxHl5aJ5P/2',30,1), -- Constraseña gerente: gerente123
+('empleado_eliminado','$2b$10$aG1BF92awurST7SqHTnOgOWVSIkYhpqFlZ0.xzBuhtTxGRBpNQX.K',(SELECT id_persona FROM Persona WHERE nombre = 'Empleado Eliminado'),2);
 
 INSERT INTO Producto (producto, descripcion, stock, precio_compra, precio_venta, id_categoria) VALUES
 ('Coca Cola 1L','Bebida gaseosa',100,5.00,7.50,1),
