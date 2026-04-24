@@ -41,7 +41,8 @@ INSERT INTO Proveedor (proveedor, direccion, contacto) VALUES
 ('Ropa Americana GT', 'Zona 1, Ciudad de Guatemala', '2233-9988'),
 ('Juguetería Mundo Feliz', 'Zona 10, Ciudad de Guatemala', '2380-5566'),
 ('Ferretería El Constructor', 'Zona 7, Ciudad de Guatemala', '2477-8899'),
-('Distribuidora General GT', 'Zona 2, Ciudad de Guatemala', '2222-1111');
+('Distribuidora General GT', 'Zona 2, Ciudad de Guatemala', '2222-1111'),
+('Proveedor Eliminado', 'Zona 0, Ciudad de Guatemala', '0000-0000');
 
 INSERT INTO Persona (nombre) VALUES
 ('Juan Pérez'), ('María López'), ('Carlos Gómez'), ('Ana Martínez'), ('Luis Ramírez'),
@@ -49,21 +50,24 @@ INSERT INTO Persona (nombre) VALUES
 ('Miguel Morales'), ('Daniela Ortiz'), ('Fernando Díaz'), ('Patricia Aguilar'), ('Ricardo López'),
 ('Andrea Castillo'), ('Héctor Fuentes'), ('Gabriela Rivas'), ('Oscar Mejía'), ('Claudia Pérez'),
 ('Jorge Sánchez'), ('Verónica Reyes'), ('Esteban Cruz'), ('Natalia Flores'), ('Mario Pineda'),
-('Alejandra Soto'), ('Roberto Silva'), ('Karla Jiménez'), ('Diego Estrada'), ('Paola Vargas');
+('Alejandra Soto'), ('Roberto Silva'), ('Karla Jiménez'), ('Diego Estrada'), ('Paola Vargas'), 
+('Cliente Eliminado'), ('Empleado Eliminado');
 
 INSERT INTO Cliente (nit, id_persona) VALUES
 ('5487213',1),('7845123',2),('9632587',3),('7412589',4),('8523697',5),
 ('1593574',6),('4561237',7),('7894561',8),('3216549',9),('6549871',10),
 ('8521473',11),('9637412',12),('1597538',13),('3579514',14),('2584569',15),
 ('1472583',16),('3692581',17),('9517536',18),('7531594',19),('4568523',20),
-('8524569',21),('7413698',22),('9638527',23),('1598523',24),('3572589',25);
+('8524569',21),('7413698',22),('9638527',23),('1598523',24),('3572589',25),
+('1234567',(SELECT id_persona FROM Persona WHERE nombre = 'Cliente Eliminado'));
 
 INSERT INTO Empleado (usuario, contrasena, id_persona, id_rol) VALUES
 ('admin','admin123',26,1),
 ('cajero1','caja123',27,2),
 ('cajero2','caja456',28,2),
 ('supervisor','super123',29,2),
-('gerente','gerente123',30,1);
+('gerente','gerente123',30,1),
+('empleado_eliminado','empleado_eliminado',(SELECT id_persona FROM Persona WHERE nombre = 'Empleado Eliminado'),2);
 
 INSERT INTO Producto (producto, descripcion, stock, precio_compra, precio_venta, id_categoria) VALUES
 ('Coca Cola 1L','Bebida gaseosa',100,5.00,7.50,1),
