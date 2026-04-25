@@ -97,6 +97,11 @@ export const deleteEmpleado = async (req, res) => {
             )
         `);
 
+        if (empleadoEliminado.rows[0].id_empleado === id) {
+            await client.query('ROLLBACK');
+            return res.status(400).json({ message: 'No se puede eliminar el empleado eliminado' });
+        }
+
         await client.query(
             'UPDATE transaccion SET id_encargado = $1 WHERE id_encargado = $2',
             [empleadoEliminado.rows[0].id_empleado, id_empleado]

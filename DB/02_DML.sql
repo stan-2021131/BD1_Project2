@@ -99,7 +99,8 @@ INSERT INTO Producto (producto, descripcion, stock, precio_compra, precio_venta,
 ('Sal','Condimento',150,1.00,2.00,15),
 ('Shampoo Pantene','Cuidado personal',60,12.00,18.00,17),
 ('Comida para perro','Mascotas',40,15.00,22.00,18),
-('Cuaderno Norma','Papelería',90,5.00,8.00,19);
+('Cuaderno Norma','Papelería',90,5.00,8.00,19),
+('Producto Eliminado','Producto eliminado',0,0.00,0.00,25);
 
 INSERT INTO Transaccion (fecha, id_encargado, id_forma_pago) VALUES
 ('2026-03-01',1,1),('2026-03-01',2,2),('2026-03-02',3,1),

@@ -95,6 +95,11 @@ export const deleteProveedor = async (req, res) => {
             return res.status(500).json({ message: 'No se encontró el proveedor eliminado' });
         }
 
+        if (proveedorEliminado.rows[0].id_proveedor === id) {
+            await client.query('ROLLBACK');
+            return res.status(400).json({ message: 'No se puede eliminar el proveedor eliminado' });
+        }
+
         await client.query(
             'UPDATE compra SET id_proveedor = $1 WHERE id_proveedor = $2',
             [proveedorEliminado.rows[0].id_proveedor, id]

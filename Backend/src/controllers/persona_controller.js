@@ -75,6 +75,21 @@ export const deletePersona = async (req, res) => {
     try {
         await client.query('BEGIN');
 
+        const empleadoEliminado = await client.query(`
+            SELECT id_persona FROM persona
+            WHERE nombre = 'Empleado Eliminado'
+        `);
+
+        const clienteEliminado = await client.query(`
+            SELECT id_persona FROM persona
+            WHERE nombre = 'Cliente Eliminado'
+        `);
+
+        if (empleadoEliminado.rows[0].id_persona === id || clienteEliminado.rows[0].id_persona === id) {
+            await client.query('ROLLBACK');
+            return res.status(400).json({ message: 'No se puede eliminar la persona eliminada' });
+        }
+
         const cliente = await client.query(
             'SELECT id_cliente FROM cliente WHERE id_persona = $1',
             [id]

@@ -92,6 +92,11 @@ export const deleteCliente = async (req, res) => {
             )
         `);
 
+        if (clienteEliminado.rows[0].id_cliente === id) {
+            await client.query('ROLLBACK');
+            return res.status(400).json({ message: 'No se puede eliminar el cliente eliminado' });
+        }
+
         await client.query(
             'UPDATE venta SET id_cliente = $1 WHERE id_cliente = $2',
             [clienteEliminado.rows[0].id_cliente, id_cliente]
