@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 export const getEmpleados = async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM empleado INNER JOIN persona ON empleado.id_persona = persona.id_persona');
+        const result = await pool.query('SELECT * FROM usuario_filtrado');
         if (result.rows.length === 0) {
             return res.status(404).json({ message: 'No se encontraron empleados' });
         }
@@ -141,9 +141,12 @@ export const iniciarSesion = async (req, res) => {
         if (result.rows.length === 0 || !bcrypt.compareSync(contrasena, result.rows[0].contrasena)) {
             return res.status(404).json({ message: 'Credenciales incorrectas' });
         }
+
+        const { contrasena: _, ...userData } = result.rows[0];
+
         res.status(200).json({
             ok: true,
-            data: result.rows[0]
+            data: userData
         });
     } catch (error) {
         console.error(error);
