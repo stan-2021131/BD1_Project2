@@ -64,8 +64,10 @@ export const updateProveedor = async (req, res) => {
 }
 
 export const deleteProveedor = async (req, res) => {
+    //Obtiene el id del proveedor
     const { id } = req.params;
 
+    //Verifica que se haya enviado un id
     if (!id) {
         return res.status(400).json({ message: 'Debe ingresar un id' });
     }
@@ -73,8 +75,10 @@ export const deleteProveedor = async (req, res) => {
     const client = await pool.connect();
 
     try {
+        //Inicia la transacción
         await client.query('BEGIN');
 
+        //Verifica que el proveedor exista
         const proveedor = await client.query(
             'SELECT id_proveedor FROM proveedor WHERE id_proveedor = $1',
             [id]
@@ -85,6 +89,7 @@ export const deleteProveedor = async (req, res) => {
             return res.status(404).json({ message: 'No se encontró el proveedor' });
         }
 
+        //Obtiene el id del proveedor eliminado
         const proveedorEliminado = await client.query(`
             SELECT id_proveedor FROM proveedor
             WHERE proveedor = 'Proveedor Eliminado'
@@ -95,21 +100,25 @@ export const deleteProveedor = async (req, res) => {
             return res.status(500).json({ message: 'No se encontró el proveedor eliminado' });
         }
 
+        //Verifica que el proveedor no sea el proveedor eliminado
         if (proveedorEliminado.rows[0].id_proveedor === id) {
             await client.query('ROLLBACK');
             return res.status(400).json({ message: 'No se puede eliminar el proveedor eliminado' });
         }
 
+        //Actualiza el id_proveedor de las compras del proveedor a eliminar
         await client.query(
             'UPDATE compra SET id_proveedor = $1 WHERE id_proveedor = $2',
             [proveedorEliminado.rows[0].id_proveedor, id]
         );
 
+        //Elimina el proveedor
         const result = await client.query(
             'DELETE FROM proveedor WHERE id_proveedor = $1 RETURNING *',
             [id]
         );
 
+        //Confirma la transacción
         await client.query('COMMIT');
 
         res.status(200).json({
@@ -117,6 +126,7 @@ export const deleteProveedor = async (req, res) => {
             data: result.rows[0]
         });
     } catch (error) {
+        //Revierte la transacción si hay un error
         await client.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Error al eliminar el proveedor' });

@@ -47,6 +47,7 @@ export const updateCliente = async (req, res) => {
             return res.status(400).json({ message: 'Debe ingresar un nit' });
         }
 
+        //Actualiza el nit del cliente
         const result = await pool.query('UPDATE cliente SET nit = $1 WHERE id_cliente = $2 RETURNING *', [nit, id]);
 
         if (result.rows.length === 0) {
@@ -71,13 +72,16 @@ export const deleteCliente = async (req, res) => {
     }
     const client = await pool.connect();
     try {
+        //Inicia la transacción
         await client.query('BEGIN');
 
+        //Verifica si el cliente existe
         const cliente = await client.query(
             'SELECT id_cliente FROM cliente WHERE id_cliente = $1',
             [id]
         );
 
+        //Si no existe el cliente, se hace rollback y se retorna error
         if (cliente.rows.length === 0) {
             await client.query('ROLLBACK');
             return res.status(404).json({ message: 'No se encontró el cliente' });
@@ -85,6 +89,7 @@ export const deleteCliente = async (req, res) => {
 
         const id_cliente = cliente.rows[0].id_cliente;
 
+        //Obtiene el id del cliente eliminado
         const clienteEliminado = await client.query(`
             SELECT id_cliente FROM cliente
             WHERE id_persona = (
@@ -92,21 +97,25 @@ export const deleteCliente = async (req, res) => {
             )
         `);
 
+        //Si el cliente es el cliente eliminado, se hace rollback y se retorna error
         if (clienteEliminado.rows[0].id_cliente === id) {
             await client.query('ROLLBACK');
             return res.status(400).json({ message: 'No se puede eliminar el cliente eliminado' });
         }
 
+        //Actualiza el id_cliente de las ventas del cliente a eliminar
         await client.query(
             'UPDATE venta SET id_cliente = $1 WHERE id_cliente = $2',
             [clienteEliminado.rows[0].id_cliente, id_cliente]
         );
 
+        //Elimina el cliente
         const result = await client.query(
             'DELETE FROM cliente WHERE id_cliente = $1 RETURNING *',
             [id]
         );
 
+        //Confirma la transacción
         await client.query('COMMIT');
 
         res.status(200).json({
@@ -115,11 +124,13 @@ export const deleteCliente = async (req, res) => {
         });
 
     } catch (error) {
+        //Si hay un error, se hace rollback
         await client.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Error al eliminar el cliente' });
     }
     finally {
+        //Libera la conexión
         client.release();
     }
 }
