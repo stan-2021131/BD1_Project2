@@ -1,5 +1,5 @@
 const CarritoItem = ({ item, editable, dispatch }) => {
-    const precio = item.precio_unitario || item.precio_venta;
+    const precio = item.precio_unitario || item.precio_venta || item.precio_compra;
     const subtotal = item.cantidad * precio;
 
     const aumentar = () => {

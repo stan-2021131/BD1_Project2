@@ -2,7 +2,7 @@ import { useState } from "react";
 import { api } from "../../services/Api";
 import CarritoTable from "../Cart/Cart";
 
-const VentaRow = ({ venta, refresh }) => {
+const CompraRow = ({ compra, refresh }) => {
     const [detalle, setDetalle] = useState(null);
 
     const verDetalle = async () => {
@@ -11,29 +11,28 @@ const VentaRow = ({ venta, refresh }) => {
             return;
         }
 
-        const res = await api.get(`compra_venta/venta/${venta.id_transaccion}`);
+        const res = await api.get(`compra_venta/compra/${compra.id_transaccion}`);
         setDetalle(res.data);
     };
 
     const anular = async () => {
-        if (!confirm("¿Anular venta?")) return;
+        if (!confirm("¿Anular compra?")) return;
 
-        await api.put(`compra_venta/venta/${venta.id_transaccion}`, {});
+        await api.put(`compra_venta/compra/${compra.id_transaccion}`, {});
         refresh();
     };
 
     return (
         <>
             <tr>
-                <td>{venta.nit}</td>
-                <td>{venta.nombre}</td>
-                <td>{new Date(venta.fecha).toLocaleDateString()}</td>
-                <td>{venta.usuario}</td>
-                <td>{venta.forma_pago}</td>
-                <td>{venta.estado}</td>
+                <td>{compra.proveedor}</td>
+                <td>{new Date(compra.fecha).toLocaleDateString()}</td>
+                <td>{compra.forma_pago}</td>
+                <td>{compra.usuario}</td>
+                <td>{compra.estado}</td>
                 <td>
                     <button onClick={verDetalle}>{detalle ? "Ocultar" : "Ver"} detalle</button>
-                    {venta.estado === "ACTIVO" && <button onClick={anular}>Anular</button>}
+                    {compra.estado === "ACTIVO" && <button onClick={anular}>Anular</button>}
                 </td>
             </tr>
 
@@ -48,4 +47,4 @@ const VentaRow = ({ venta, refresh }) => {
     );
 };
 
-export default VentaRow;
+export default CompraRow;

@@ -4,6 +4,7 @@ import MainLayout from "../layout/MainLayout";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Ventas from "../pages/cruds/Ventas";
 import Productos from "../pages/cruds/Productos";
+import Compras from "../pages/cruds/Compras";
 
 export const router = createBrowserRouter([
     { path: "/", element: <Login /> },
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
         children: [
             { index: true, element: <Ventas /> },
             { path: "productos", element: <Productos /> },
+            { path: "compras", element: <Compras /> },
         ]
     }
 ]);

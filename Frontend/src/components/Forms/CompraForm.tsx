@@ -1,25 +1,25 @@
 import { useEffect, useState, useContext } from "react";
 import { api } from "../../services/Api";
-import { CarritoVentasContext } from "../../context/CarritoContext";
+import { CarritoComprasContext } from "../../context/CarritoContext";
 import CarritoTable from "../Cart/Cart";
 import { useUser } from "../../context/UserContext";
 
-const VentaForm = ({ close, refresh }) => {
-    const { state, dispatch } = useContext(CarritoVentasContext);
+const CompraForm = ({ close, refresh }) => {
+    const { state, dispatch } = useContext(CarritoComprasContext);
     const { user } = useUser();
 
-    const [clientes, setClientes] = useState([]);
+    const [proveedores, setProveedores] = useState([]);
     const [formasPago, setFormasPago] = useState([]);
 
-    const [cliente, setCliente] = useState("");
+    const [proveedor, setProveedor] = useState("");
     const [formaPago, setFormaPago] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
-            const c = await api.get("cliente");
+            const p = await api.get("proveedor");
             const f = await api.get("forma_pago");
 
-            setClientes(c.data);
+            setProveedores(p.data);
             setFormasPago(f.data);
         };
 
@@ -27,8 +27,8 @@ const VentaForm = ({ close, refresh }) => {
     }, []);
 
     const handleSubmit = async () => {
-        if (!cliente) {
-            alert("Debe seleccionar un cliente");
+        if (!proveedor) {
+            alert("Debe seleccionar un proveedor");
             return;
         }
 
@@ -43,37 +43,37 @@ const VentaForm = ({ close, refresh }) => {
         }
 
         try {
-            await api.post("compra_venta/venta", {
+            await api.post("compra_venta/compra", {
                 encargado: user.id_empleado,
                 forma_pago: Number(formaPago),
-                cliente: Number(cliente),
+                proveedor: Number(proveedor),
                 productos: state.map((p) => ({
                     id_producto: p.id_producto,
                     cantidad: p.cantidad,
                 })),
             });
 
-            alert(`Venta realizada exitosamente`);
+            alert(`Compra realizada exitosamente`);
             dispatch({ type: "LIMPIAR" });
             refresh();
             close();
         } catch (error) {
             console.error(error);
-            alert(`Error al realizar la venta: ${error.message}`);
+            alert(`Error al realizar la compra: ${error.message}`);
         }
     };
 
     return (
         <div>
-            <h3>Nueva Venta</h3>
+            <h3>Nueva Compra</h3>
 
             <div>
-                <label>Cliente</label>
-                <select onChange={(e) => setCliente(e.target.value)}>
+                <label>Proveedor</label>
+                <select onChange={(e) => setProveedor(e.target.value)}>
                     <option>Seleccione</option>
-                    {clientes.map((c) => (
-                        <option key={c.id_cliente} value={c.id_cliente}>
-                            {c.nombre} - {c.nit}
+                    {proveedores.map((p) => (
+                        <option key={p.id_proveedor} value={p.id_proveedor}>
+                            {p.proveedor} - {p.contacto}
                         </option>
                     ))}
                 </select>
@@ -94,10 +94,10 @@ const VentaForm = ({ close, refresh }) => {
             {/* CARRITO */}
             <CarritoTable items={state} editable={true} dispatch={dispatch} />
 
-            <button onClick={handleSubmit}>Confirmar venta</button>
+            <button onClick={handleSubmit}>Confirmar compra</button>
             <button onClick={close}>Cancelar</button>
         </div>
     );
 };
 
-export default VentaForm;
+export default CompraForm;

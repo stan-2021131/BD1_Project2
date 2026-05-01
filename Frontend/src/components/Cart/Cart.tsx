@@ -3,7 +3,7 @@ import CarritoItem from "../CartElement/CartElement";
 const Carrito = ({ items, editable = false, dispatch }) => {
 
     const total = items.reduce(
-        (acc, item) => acc + item.cantidad * (item.precio_unitario || item.precio_venta),
+        (acc, item) => acc + item.cantidad * (item.precio_unitario || item.precio_venta || item.precio_compra),
         0
     );
 

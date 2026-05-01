@@ -14,7 +14,7 @@ const Navbar = () => {
 
             {/*Opciones para TODOS */}
             <Link to="/dashboard"><button>Ventas</button></Link>
-            <Link to="/dashboard"><button>Compras</button></Link>
+            <Link to="/dashboard/compras"><button>Compras</button></Link>
             <Link to="/dashboard/productos"><button>Productos</button></Link>
 
             {/*Solo admin */}

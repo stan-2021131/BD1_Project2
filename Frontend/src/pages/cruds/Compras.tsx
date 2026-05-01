@@ -1,37 +1,37 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
-import VentaRow from "../../components/Rows/VentaRow";
-import VentaForm from "../../components/Forms/VentaForm";
+import CompraRow from "../../components/Rows/CompraRow";
+import CompraForm from "../../components/Forms/CompraForm";
 
-const Ventas = () => {
-    const [ventas, setVentas] = useState([]);
+const Compras = () => {
+    const [compras, setCompras] = useState([]);
     const [filtro, setFiltro] = useState("");
     const [mostrarForm, setMostrarForm] = useState(false);
 
-    const fetchVentas = async () => {
-        let endpoint = "compra_venta/venta";
+    const fetchCompras = async () => {
+        let endpoint = "compra_venta/compra";
 
         if (filtro === "ACTIVO") endpoint += "?activo=true";
         if (filtro === "INACTIVO") endpoint += "?activo=false";
 
         const res = await api.get(endpoint);
-        setVentas(res.data);
+        setCompras(res.data);
     };
 
     useEffect(() => {
-        fetchVentas();
+        fetchCompras();
     }, [filtro]);
 
     return (
         <div>
-            <h2>Ventas</h2>
+            <h2>Compras</h2>
 
             {/* FILTROS */}
             <div>
                 <label>
                     <input
                         type="radio"
-                        name="filtroVentas"
+                        name="filtroCompras"
                         onChange={() => setFiltro("")}
                         checked={filtro === ""}
                     />
@@ -41,7 +41,7 @@ const Ventas = () => {
                 <label>
                     <input
                         type="radio"
-                        name="filtroVentas"
+                        name="filtroCompras"
                         onChange={() => setFiltro("ACTIVO")}
                         checked={filtro === "ACTIVO"}
                     />
@@ -51,7 +51,7 @@ const Ventas = () => {
                 <label>
                     <input
                         type="radio"
-                        name="filtroVentas"
+                        name="filtroCompras"
                         onChange={() => setFiltro("INACTIVO")}
                         checked={filtro === "INACTIVO"}
                     />
@@ -59,32 +59,31 @@ const Ventas = () => {
                 </label>
             </div>
 
-            <button onClick={() => setMostrarForm(true)}>Hacer venta</button>
+            <button onClick={() => setMostrarForm(true)}>Hacer compra</button>
 
             {/* TABLA */}
             <table border={1}>
                 <thead>
                     <tr>
-                        <th>NIT</th>
-                        <th>Nombre</th>
+                        <th>Proveedor</th>
                         <th>Fecha</th>
-                        <th>Encargado</th>
                         <th>Forma Pago</th>
+                        <th>Encargado</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {ventas.map((v) => (
-                        <VentaRow key={v.id_transaccion} venta={v} refresh={fetchVentas} />
+                    {compras.map((v) => (
+                        <CompraRow key={v.id_transaccion} compra={v} refresh={fetchCompras} />
                     ))}
                 </tbody>
             </table>
 
-            {mostrarForm && <VentaForm close={() => setMostrarForm(false)} refresh={fetchVentas} />}
+            {mostrarForm && <CompraForm close={() => setMostrarForm(false)} refresh={fetchCompras} />}
         </div>
     );
 };
 
-export default Ventas;
+export default Compras;
