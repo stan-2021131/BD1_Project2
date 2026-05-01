@@ -3,6 +3,7 @@ import { api } from "../../services/Api";
 import ProveedorRow from "../../components/Rows/ProveedorRow";
 import ProveedorForm from "../../components/Forms/ProveedorForm";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const Proveedores = () => {
     const [proveedores, setProveedores] = useState<any[]>([]);
@@ -26,20 +27,20 @@ const Proveedores = () => {
     }, []);
 
     return (
-        <div style={{ display: "flex", gap: "20px" }}>
+        <div className="crud-container">
 
-            <div style={{ flex: 1 }}>
+            <div className="crud-table">
                 <h2>Proveedores</h2>
 
                 <input
+                    className="crud-search"
                     type="text"
                     placeholder="Buscar proveedor..."
-                    className="input"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <table border={1} width="100%">
+                <table border={1}>
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -63,7 +64,7 @@ const Proveedores = () => {
             </div>
 
             {isAdmin && (
-                <div style={{ flex: 1 }}>
+                <div className="crud-form">
                     <ProveedorForm
                         selected={selected}
                         clear={() => setSelected(null)}

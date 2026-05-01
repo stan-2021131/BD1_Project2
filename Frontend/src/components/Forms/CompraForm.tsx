@@ -68,35 +68,38 @@ const CompraForm = ({ close, refresh }) => {
         <div className="form-container">
             <h3 className="form-title">Nueva Compra</h3>
 
-            <div className="form-group">
-                <label className="form-label">Proveedor</label>
-                <select className="form-select" onChange={(e) => setProveedor(e.target.value)}>
-                    <option>Seleccione</option>
-                    {proveedores.map((p) => (
-                        <option key={p.id_proveedor} value={p.id_proveedor}>
-                            {p.proveedor} - {p.contacto}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <div className="form-split">
+                <div className="form-left">
+                    <div className="form-group">
+                        <label className="form-label">Proveedor</label>
+                        <select className="form-select" onChange={(e) => setProveedor(e.target.value)}>
+                            <option>Seleccione</option>
+                            {proveedores.map((p) => (
+                                <option key={p.id_proveedor} value={p.id_proveedor}>
+                                    {p.proveedor} - {p.contacto}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-            <div className="form-group">
-                <label className="form-label">Forma de Pago</label>
-                <select className="form-select" onChange={(e) => setFormaPago(e.target.value)}>
-                    <option>Seleccione</option>
-                    {formasPago.map((f) => (
-                        <option key={f.id_forma} value={f.id_forma}>
-                            {f.forma_pago}
-                        </option>
-                    ))}
-                </select>
-            </div>
+                    <div className="form-group">
+                        <label className="form-label">Forma de Pago</label>
+                        <select className="form-select" onChange={(e) => setFormaPago(e.target.value)}>
+                            <option>Seleccione</option>
+                            {formasPago.map((f) => (
+                                <option key={f.id_forma} value={f.id_forma}>
+                                    {f.forma_pago}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
 
-            {/* CARRITO */}
-            <div className="form-cart">
-                <CarritoTable items={state} editable={true} dispatch={dispatch} />
+                {/* CARRITO */}
+                <div className="form-right">
+                    <CarritoTable items={state} editable={true} dispatch={dispatch} />
+                </div>
             </div>
-
             <div className="form-actions">
                 <button className="form-btn" onClick={handleSubmit}>Confirmar compra</button>
                 <button className="form-btn cancel" onClick={close}>Cancelar</button>

@@ -3,6 +3,7 @@ import { api } from "../../services/Api";
 import EmpleadoRow from "../../components/Rows/EmpleadoRow";
 import EmpleadoForm from "../../components/Forms/EmpleadoForm";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const Empleados = () => {
     const [empleados, setEmpleados] = useState<any[]>([]);
@@ -26,18 +27,19 @@ const Empleados = () => {
     }, []);
 
     return (
-        <div style={{ display: "flex", gap: "20px" }}>
-            <div style={{ flex: 1 }}>
+        <div className="crud-container">
+            <div className="crud-table">
                 <h2>Empleados</h2>
 
                 <input
+                    className="crud-search"
                     type="text"
                     placeholder="Buscar empleado..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <table border={1} width="100%">
+                <table border={1}>
                     <thead>
                         <tr>
                             <th>Usuario</th>
@@ -61,7 +63,7 @@ const Empleados = () => {
             </div>
 
             {isAdmin && (
-                <div style={{ flex: 1 }}>
+                <div className="crud-form">
                     <EmpleadoForm
                         selected={selected}
                         clear={() => setSelected(null)}

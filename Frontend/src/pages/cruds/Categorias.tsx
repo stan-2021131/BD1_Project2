@@ -3,6 +3,7 @@ import { api } from "../../services/Api";
 import CategoriaRow from "../../components/Rows/CategoriaRow";
 import CategoriaForm from "../../components/Forms/CategoriaForm";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const Categorias = () => {
     const [categorias, setCategorias] = useState<any[]>([]);
@@ -26,17 +27,18 @@ const Categorias = () => {
     }, []);
 
     return (
-        <div style={{ display: "flex", gap: "20px" }}>
-            <div style={{ flex: 1 }}>
+        <div className="crud-container">
+            <div className="crud-table">
                 <h2>Categorías</h2>
 
                 <input
+                    className="crud-search"
                     placeholder="Buscar categoría..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <table border={1} width="100%">
+                <table border={1}>
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -58,7 +60,7 @@ const Categorias = () => {
             </div>
 
             {isAdmin && (
-                <div style={{ flex: 1 }}>
+                <div className="crud-form">
                     <CategoriaForm
                         selected={selected}
                         clear={() => setSelected(null)}

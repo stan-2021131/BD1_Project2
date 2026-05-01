@@ -1,0 +1,86 @@
+/* ============================= */
+/*  CONTENEDOR GENERAL */
+/* ============================= */
+.crud-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* TABLA ocupa 75% */
+.crud-table {
+    flex: 3;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+/* FORM ocupa 25% */
+.crud-form {
+    flex: 1;
+    min-width: 280px;
+}
+
+.crud-table table {
+    width: 100%;
+    min-width: 700px;
+}
+
+/* ============================= */
+/*  BUSCADOR */
+/* ============================= */
+.crud-search {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* ============================= */
+/*  HEADER CRUD */
+/* ============================= */
+.crud-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+/* ============================= */
+/*  FILTROS */
+/* ============================= */
+.crud-filters {
+    display: flex;
+    gap: 10px;
+}
+
+/* ============================= */
+/*  BOTÓN PRINCIPAL */
+/* ============================= */
+.crud-action-btn {
+    background-color: var(--color-primary);
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    color: white;
+}
+
+/* ============================= */
+/*  FORM EN CRUD (COMPRA/VENTA) */
+/* ============================= */
+.crud-form-inline {
+    margin: 15px 0;
+}
+
+/* ============================= */
+/*  RESPONSIVE (ESCRITORIO) */
+/* ============================= */
+@media (max-width: 800px) {
+    .crud-container {
+        flex-direction: column;
+    }
+
+    .crud-table,
+    .crud-form {
+        flex: 1 1 100%;
+    }
+}

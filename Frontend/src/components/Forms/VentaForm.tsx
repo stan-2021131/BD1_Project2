@@ -68,32 +68,41 @@ const VentaForm = ({ close, refresh }) => {
         <div className="form-container">
             <h3 className="form-title">Nueva Venta</h3>
 
-            <div className="form-group">
-                <label className="form-label">Cliente</label>
-                <select className="form-select" onChange={(e) => setCliente(e.target.value)}>
-                    <option>Seleccione</option>
-                    {clientes.map((c) => (
-                        <option key={c.id_cliente} value={c.id_cliente}>
-                            {c.nombre} - {c.nit}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <div className="form-split">
 
-            <div className="form-group">
-                <label className="form-label">Forma de Pago</label>
-                <select className="form-select" onChange={(e) => setFormaPago(e.target.value)}>
-                    <option>Seleccione</option>
-                    {formasPago.map((f) => (
-                        <option key={f.id_forma} value={f.id_forma}>
-                            {f.forma_pago}
-                        </option>
-                    ))}
-                </select>
-            </div>
+                {/* IZQUIERDA */}
+                <div className="form-left">
+                    <div className="form-group">
+                        <label className="form-label">Cliente</label>
+                        <select className="form-select" onChange={(e) => setCliente(e.target.value)}>
+                            <option>Seleccione</option>
+                            {clientes.map((c) => (
+                                <option key={c.id_cliente} value={c.id_cliente}>
+                                    {c.nombre} - {c.nit}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-            {/* CARRITO */}
-            <CarritoTable items={state} editable={true} dispatch={dispatch} />
+                    <div className="form-group">
+                        <label className="form-label">Forma de Pago</label>
+                        <select className="form-select" onChange={(e) => setFormaPago(e.target.value)}>
+                            <option>Seleccione</option>
+                            {formasPago.map((f) => (
+                                <option key={f.id_forma} value={f.id_forma}>
+                                    {f.forma_pago}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                {/* DERECHA */}
+                <div className="form-right">
+                    <CarritoTable items={state} editable={true} dispatch={dispatch} />
+                </div>
+
+            </div>
 
             <div className="form-actions">
                 <button className="form-btn" onClick={handleSubmit}>Confirmar venta</button>

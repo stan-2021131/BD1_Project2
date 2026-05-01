@@ -3,6 +3,7 @@ import { api } from "../../services/Api";
 import ClienteRow from "../../components/Rows/ClienteRow";
 import ClienteForm from "../../components/Forms/ClienteForm";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const Clientes = () => {
     const [clientes, setClientes] = useState<any[]>([]);
@@ -26,15 +27,15 @@ const Clientes = () => {
     }, []);
 
     return (
-        <div style={{ display: "flex", gap: "20px" }}>
+        <div className="crud-container">
 
-            <div style={{ flex: 1 }}>
+            <div className="crud-table">
                 <h2>Clientes</h2>
 
                 <input
                     type="text"
                     placeholder="Buscar cliente..."
-                    className="input"
+                    className="crud-search"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
@@ -63,7 +64,7 @@ const Clientes = () => {
 
             {/* FORM SOLO ADMIN */}
             {isAdmin && (
-                <div style={{ flex: 1 }}>
+                <div className="crud-form">
                     <ClienteForm
                         selected={selected}
                         clear={() => setSelected(null)}

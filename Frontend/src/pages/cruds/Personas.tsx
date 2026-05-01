@@ -3,6 +3,7 @@ import { api } from "../../services/Api";
 import PersonaRow from "../../components/Rows/PersonaRow";
 import PersonaForm from "../../components/Forms/PersonaForm";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const Personas = () => {
     const [personas, setPersonas] = useState<any[]>([]);
@@ -26,19 +27,20 @@ const Personas = () => {
     }, []);
 
     return (
-        <div style={{ display: "flex", gap: "20px" }}>
+        <div className="crud-container">
 
-            <div style={{ flex: 1 }}>
+            <div className="crud-table">
                 <h2>Personas</h2>
 
                 <input
+                    className="crud-search"
                     type="text"
                     placeholder="Buscar persona..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <table border={1} width="100%">
+                <table border={1}>
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -60,7 +62,7 @@ const Personas = () => {
             </div>
 
             {isAdmin && (
-                <div style={{ flex: 1 }}>
+                <div className="crud-form">
                     <PersonaForm
                         selected={selected}
                         clear={() => setSelected(null)}

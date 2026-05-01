@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
 import CompraRow from "../../components/Rows/CompraRow";
 import CompraForm from "../../components/Forms/CompraForm";
+import "./style.css";
 
 const Compras = () => {
     const [compras, setCompras] = useState([]);
@@ -26,41 +27,37 @@ const Compras = () => {
         <div>
             <h2>Compras</h2>
 
-            {/* FILTROS */}
-            <div>
-                <label>
-                    <input
-                        type="radio"
-                        name="filtroCompras"
-                        onChange={() => setFiltro("")}
-                        checked={filtro === ""}
-                    />
-                    Todas
-                </label>
+            <div className="crud-header">
+                <div className="crud-filters">
+                    <label>
+                        <input type="radio" name="filtroCompras" onChange={() => setFiltro("")} checked={filtro === ""} />
+                        Todas
+                    </label>
 
-                <label>
-                    <input
-                        type="radio"
-                        name="filtroCompras"
-                        onChange={() => setFiltro("ACTIVO")}
-                        checked={filtro === "ACTIVO"}
-                    />
-                    Activas
-                </label>
+                    <label>
+                        <input type="radio" name="filtroCompras" onChange={() => setFiltro("ACTIVO")} checked={filtro === "ACTIVO"} />
+                        Activas
+                    </label>
 
-                <label>
-                    <input
-                        type="radio"
-                        name="filtroCompras"
-                        onChange={() => setFiltro("INACTIVO")}
-                        checked={filtro === "INACTIVO"}
-                    />
-                    Inactivas
-                </label>
+                    <label>
+                        <input type="radio" name="filtroCompras" onChange={() => setFiltro("INACTIVO")} checked={filtro === "INACTIVO"} />
+                        Inactivas
+                    </label>
+                </div>
+
+                <button
+                    className="crud-action-btn"
+                    onClick={() => setMostrarForm(true)}
+                >
+                    Hacer compra
+                </button>
             </div>
 
-            <button onClick={() => setMostrarForm(true)}>Hacer compra</button>
-
+            {mostrarForm &&
+                <div className="crud-form-inline">
+                    <CompraForm close={() => setMostrarForm(false)} refresh={fetchCompras} />
+                </div>
+            }
             {/* TABLA */}
             <table border={1}>
                 <thead>
@@ -81,7 +78,6 @@ const Compras = () => {
                 </tbody>
             </table>
 
-            {mostrarForm && <CompraForm close={() => setMostrarForm(false)} refresh={fetchCompras} />}
         </div>
     );
 };

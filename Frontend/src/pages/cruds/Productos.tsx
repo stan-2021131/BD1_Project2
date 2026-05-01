@@ -3,6 +3,7 @@ import { api } from "../../services/Api";
 import ProductoRow from "../../components/Rows/ProductoRow";
 import ProductoForm from "../../components/Forms/ProductoForm";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const Productos = () => {
     const [productos, setProductos] = useState<any[]>([]);
@@ -26,20 +27,20 @@ const Productos = () => {
     }, []);
 
     return (
-        <div style={{ display: "flex", gap: "20px" }}>
+        <div className="crud-container">
 
-            <div style={{ flex: 1 }}>
+            <div className="crud-table">
                 <h2>Productos</h2>
 
                 <input
+                    className="crud-search"
                     type="text"
                     placeholder="Buscar producto..."
-                    className="input"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <table border={1} width="100%">
+                <table border={1}>
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -66,7 +67,7 @@ const Productos = () => {
 
             {/* FORM SOLO ADMIN */}
             {isAdmin && (
-                <div style={{ flex: 1 }}>
+                <div className="crud-form">
                     <ProductoForm
                         selected={selected}
                         clear={() => setSelected(null)}
