@@ -18,8 +18,14 @@ const CompraRow = ({ compra, refresh }) => {
     const anular = async () => {
         if (!confirm("¿Anular compra?")) return;
 
-        await api.put(`compra_venta/compra/${compra.id_transaccion}`, {});
-        refresh();
+        try {
+            await api.put(`compra_venta/compra/${compra.id_transaccion}`, {});
+            refresh();
+        } catch (error: any) {
+            console.error(error);
+            const message = error.message || "Error desconocido"
+            alert(`Error al anular la compra: ${message}`);
+        }
     };
 
     return (

@@ -16,8 +16,14 @@ const ProductoRow = ({ producto, onSelect, refresh }: any) => {
     const handleDelete = async () => {
         if (!confirm("¿Eliminar producto?")) return;
 
-        await api.delete(`producto/${producto.id_producto}`);
-        refresh();
+        try {
+            await api.delete(`producto/${producto.id_producto}`);
+            refresh();
+        } catch (error: any) {
+            console.error(error);
+            const message = error.message || "Error desconocido"
+            alert(`Error al eliminar el producto: ${message}`);
+        }
     };
 
     const handleAddVenta = () => {

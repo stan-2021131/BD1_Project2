@@ -20,9 +20,10 @@ const Navbar = () => {
             {/*Solo admin */}
             {isAdmin && (
                 <>
-                    <button>Clientes</button>
+                    <Link to={"/dashboard/clientes"}><button>Clientes</button></Link>
                     <button>Proveedores</button>
                     <button>Empleados</button>
+                    <button>Personas</button>
                     <button>Categorías</button>
                     <button>Reportes</button>
                 </>

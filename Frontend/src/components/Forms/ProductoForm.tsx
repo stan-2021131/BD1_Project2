@@ -45,13 +45,24 @@ const ProductoForm = ({ selected, clear, refresh }) => {
         e.preventDefault();
 
         if (selected) {
-            await api.put(`producto/${selected.id_producto}`, form);
-            alert("Producto actualizado");
+            try {
+                await api.put(`producto/${selected.id_producto}`, form);
+                alert("Producto actualizado");
+            } catch (error: any) {
+                console.error(error);
+                const message = error.message || "Error desconocido"
+                alert(`Error al actualizar el producto: ${message}`);
+            }
         } else {
-            await api.post("producto", form);
-            alert("Producto creado");
+            try {
+                await api.post("producto", form);
+                alert("Producto creado");
+            } catch (error: any) {
+                console.error(error);
+                const message = error.message || "Error desconocido"
+                alert(`Error al crear el producto: ${message}`);
+            }
         }
-
         clear();
         refresh();
     };

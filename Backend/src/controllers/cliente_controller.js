@@ -24,6 +24,23 @@ export const createCliente = async (req, res) => {
             return res.status(400).json({ message: 'Debe ingresar un nit y un id_persona' });
         }
 
+        const existePersona = await pool.query('SELECT * FROM persona WHERE id_persona = $1', [id_persona]);
+        if (existePersona.rows.length === 0) {
+            return res.status(404).json({ message: 'No se encontró la persona' });
+        }
+
+        if (nit != "c/f" && nit != "C/F" && nit != "") {
+            const existeNit = await pool.query('SELECT * FROM cliente WHERE nit = $1', [nit]);
+            if (existeNit.rows.length > 0) {
+                return res.status(400).json({ message: 'El cliente con este NIT ya existe' });
+            }
+        }
+
+        const existePersonaCliente = await pool.query('SELECT * FROM cliente WHERE id_persona = $1', [id_persona]);
+        if (existePersonaCliente.rows.length > 0) {
+            return res.status(400).json({ message: 'Esta persona ya es cliente' });
+        }
+
         const result = await pool.query('INSERT INTO cliente (nit, id_persona) VALUES ($1, $2) RETURNING *', [nit, id_persona]);
         res.status(201).json({
             ok: true,
@@ -45,6 +62,13 @@ export const updateCliente = async (req, res) => {
         }
         if (!nit) {
             return res.status(400).json({ message: 'Debe ingresar un nit' });
+        }
+
+        if (nit != "c/f" && nit != "C/F" && nit != "") {
+            const existeNit = await pool.query('SELECT * FROM cliente WHERE nit = $1', [nit]);
+            if (existeNit.rows.length > 0) {
+                return res.status(400).json({ message: 'El cliente con este NIT ya existe' });
+            }
         }
 
         //Actualiza el nit del cliente

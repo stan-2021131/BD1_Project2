@@ -2,75 +2,62 @@ const backendBaseUrl = "http://localhost:3000/api";
 
 export const api = {
     get: async (endpoint: string) => {
-        try {
-            const response = await fetch(`${backendBaseUrl}/${endpoint}`);
-            const responseData = await response.json();
+        const response = await fetch(`${backendBaseUrl}/${endpoint}`);
+        const responseData = await response.json();
 
-            if (!response.ok) {
-                throw responseData;
-            }
-            return responseData;
-        } catch (error) {
-            api.handleError(error);
+        if (!response.ok) {
+            throw responseData;
         }
+        return responseData;
     },
+
     post: async (endpoint: string, data: any) => {
-        try {
-            const response = await fetch(`${backendBaseUrl}/${endpoint}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            const responseData = await response.json();
+        const response = await fetch(`${backendBaseUrl}/${endpoint}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
 
-            if (!response.ok) {
-                throw responseData;
-            }
+        const responseData = await response.json();
 
-            return responseData;
-        } catch (error) {
-            api.handleError(error);
+        if (!response.ok) {
+            throw responseData;
         }
+
+        return responseData;
     },
+
     put: async (endpoint: string, data: any) => {
-        try {
-            const response = await fetch(`${backendBaseUrl}/${endpoint}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            const responseData = await response.json();
+        const response = await fetch(`${backendBaseUrl}/${endpoint}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
 
-            if (!response.ok) {
-                throw responseData;
-            }
+        const responseData = await response.json();
 
-            return responseData;
-        } catch (error) {
-            api.handleError(error);
+        if (!response.ok) {
+            throw responseData;
         }
+
+        return responseData;
     },
+
     delete: async (endpoint: string) => {
-        try {
-            const response = await fetch(`${backendBaseUrl}/${endpoint}`, {
-                method: "DELETE"
-            });
-            const responseData = await response.json();
+        const response = await fetch(`${backendBaseUrl}/${endpoint}`, {
+            method: "DELETE",
+        });
 
-            if (!response.ok) {
-                throw responseData;
-            }
+        const responseData = await response.json();
 
-            return responseData;
-        } catch (error) {
-            api.handleError(error);
+        if (!response.ok) {
+            throw responseData;
         }
+
+        return responseData;
     },
-    handleError: (error: any) => {
-        console.log(error);
-    },
-}
+};
