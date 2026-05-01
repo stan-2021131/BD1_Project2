@@ -41,6 +41,7 @@ const ProductoRow = ({ producto, onSelect, refresh }: any) => {
         });
 
         alert("Producto agregado a la venta");
+        setCantidad(1);
     };
 
     const handleAddCompra = () => {
@@ -63,6 +64,7 @@ const ProductoRow = ({ producto, onSelect, refresh }: any) => {
         });
 
         alert("Producto agregado a la compra");
+        setCantidad(1);
     };
 
     return (

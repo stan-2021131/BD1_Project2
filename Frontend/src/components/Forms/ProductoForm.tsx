@@ -46,8 +46,10 @@ const ProductoForm = ({ selected, clear, refresh }) => {
 
         if (selected) {
             await api.put(`producto/${selected.id_producto}`, form);
+            alert("Producto actualizado");
         } else {
             await api.post("producto", form);
+            alert("Producto creado");
         }
 
         clear();
@@ -59,20 +61,36 @@ const ProductoForm = ({ selected, clear, refresh }) => {
             <h3>{selected ? "Editar" : "Crear"} Producto</h3>
 
             <form onSubmit={handleSubmit}>
-                <input name="producto" placeholder="Nombre" value={form.producto} onChange={handleChange} />
-                <input name="descripcion" placeholder="Descripción" value={form.descripcion} onChange={handleChange} />
-                <input name="stock" type="number" value={form.stock} onChange={handleChange} />
-                <input name="precio_compra" type="number" step="0.01" value={form.precio_compra} onChange={handleChange} />
-                <input name="precio_venta" type="number" step="0.01" value={form.precio_venta} onChange={handleChange} />
-
-                <select name="id_categoria" value={form.id_categoria} onChange={handleChange}>
-                    {categorias.map((cat) => (
-                        <option key={cat.id_categoria} value={cat.id_categoria}>
-                            {cat.categoria}
-                        </option>
-                    ))}
-                </select>
-
+                <div>
+                    <label>Nombre</label>
+                    <input name="producto" placeholder="Nombre" value={form.producto} onChange={handleChange} />
+                </div>
+                <div>
+                    <label>Descripción</label>
+                    <input name="descripcion" placeholder="Descripción" value={form.descripcion} onChange={handleChange} />
+                </div>
+                <div>
+                    <label>Stock</label>
+                    <input name="stock" type="number" value={form.stock} onChange={handleChange} />
+                </div>
+                <div>
+                    <label>Precio compra</label>
+                    <input name="precio_compra" type="number" step="0.01" value={form.precio_compra} onChange={handleChange} />
+                </div>
+                <div>
+                    <label>Precio venta</label>
+                    <input name="precio_venta" type="number" step="0.01" value={form.precio_venta} onChange={handleChange} />
+                </div>
+                <div>
+                    <label>Categoría</label>
+                    <select name="id_categoria" value={form.id_categoria} onChange={handleChange}>
+                        {categorias.map((cat) => (
+                            <option key={cat.id_categoria} value={cat.id_categoria}>
+                                {cat.categoria}
+                            </option>
+                        ))}
+                    </select>
+                </div>
                 <button type="submit">
                     {selected ? "Actualizar" : "Crear"}
                 </button>
