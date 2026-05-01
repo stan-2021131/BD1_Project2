@@ -6,6 +6,8 @@ import Ventas from "../pages/cruds/Ventas";
 import Productos from "../pages/cruds/Productos";
 import Compras from "../pages/cruds/Compras";
 import Clientes from "../pages/cruds/Clientes";
+import Proveedores from "../pages/cruds/Proveedores";
+import Empleados from "../pages/cruds/Empleados";
 
 export const router = createBrowserRouter([
     { path: "/", element: <Login /> },
@@ -20,7 +22,9 @@ export const router = createBrowserRouter([
             { index: true, element: <Ventas /> },
             { path: "productos", element: <Productos /> },
             { path: "compras", element: <Compras /> },
-            { path: "clientes", element: <Clientes /> }
+            { path: "clientes", element: <Clientes /> },
+            { path: "proveedores", element: <Proveedores /> },
+            { path: "empleados", element: <Empleados /> },
         ]
     },
     { path: "*", element: <Navigate to="/dashboard" replace /> }

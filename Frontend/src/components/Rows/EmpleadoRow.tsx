@@ -1,33 +1,34 @@
 import { api } from "../../services/Api";
 import { useUser } from "../../context/UserContext";
 
-const ClienteRow = ({ cliente, onSelect, refresh }: any) => {
+const EmpleadoRow = ({ empleado, onSelect, refresh }: any) => {
     const { user } = useUser();
     const isAdmin = Number(user?.id_rol) === 1;
 
     const handleDelete = async () => {
-        if (!confirm("¿Eliminar cliente?")) return;
+        if (!confirm("¿Eliminar empleado?")) return;
 
         try {
-            await api.delete(`cliente/${cliente.id_cliente}`);
-            alert("Cliente eliminado");
+            await api.delete(`empleado/${empleado.id_empleado}`);
+            alert("Empleado eliminado");
             refresh();
         } catch (error: any) {
             console.error(error);
-            const message = error.message || "Error desconocido"
-            alert(`Error al eliminar el cliente: ${message}`);
+            const message = error.message || "Error desconocido";
+            alert(`Error al eliminar empleado: ${message}`);
         }
     };
 
     return (
         <tr>
-            <td>{cliente.nit}</td>
-            <td>{cliente.nombre}</td>
+            <td>{empleado.usuario}</td>
+            <td>{empleado.nombre}</td>
+            <td>{empleado.rol}</td>
 
             <td>
                 {isAdmin && (
                     <>
-                        <button onClick={() => onSelect(cliente)}>Editar</button>
+                        <button onClick={() => onSelect(empleado)}>Editar</button>
                         <button onClick={handleDelete}>Eliminar</button>
                     </>
                 )}
@@ -36,4 +37,4 @@ const ClienteRow = ({ cliente, onSelect, refresh }: any) => {
     );
 };
 
-export default ClienteRow;
+export default EmpleadoRow;

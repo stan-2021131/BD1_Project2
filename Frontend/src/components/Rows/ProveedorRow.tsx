@@ -1,0 +1,40 @@
+import { api } from "../../services/Api";
+import { useUser } from "../../context/UserContext";
+
+const ProveedorRow = ({ proveedor, onSelect, refresh }: any) => {
+    const { user } = useUser();
+    const isAdmin = Number(user?.id_rol) === 1;
+
+    const handleDelete = async () => {
+        if (!confirm("¿Eliminar proveedor?")) return;
+
+        try {
+            await api.delete(`proveedor/${proveedor.id_proveedor}`);
+            alert("Proveedor eliminado");
+            refresh();
+        } catch (error: any) {
+            console.error(error);
+            const message = error.message || "Error desconocido";
+            alert(`Error al eliminar el proveedor: ${message}`);
+        }
+    };
+
+    return (
+        <tr>
+            <td>{proveedor.proveedor}</td>
+            <td>{proveedor.direccion}</td>
+            <td>{proveedor.contacto}</td>
+
+            <td>
+                {isAdmin && (
+                    <>
+                        <button onClick={() => onSelect(proveedor)}>Editar</button>
+                        <button onClick={handleDelete}>Eliminar</button>
+                    </>
+                )}
+            </td>
+        </tr>
+    );
+};
+
+export default ProveedorRow;

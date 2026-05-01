@@ -161,8 +161,10 @@ INNER JOIN forma_pago fp ON fp.id_forma = t.id_forma_pago;
 CREATE VIEW usuario_filtrado AS
 SELECT 
     e.id_empleado AS id_empleado, 
-    e.usuario AS usuario, 
+    e.usuario AS usuario,
+    p.id_persona AS id_persona, 
     p.nombre AS nombre, 
+    e.id_rol AS id_rol,
     r.rol AS rol
 FROM empleado e
 INNER JOIN rol r ON e.id_rol = r.id_rol

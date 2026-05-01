@@ -18,6 +18,7 @@ const ProductoRow = ({ producto, onSelect, refresh }: any) => {
 
         try {
             await api.delete(`producto/${producto.id_producto}`);
+            alert("Producto eliminado");
             refresh();
         } catch (error: any) {
             console.error(error);

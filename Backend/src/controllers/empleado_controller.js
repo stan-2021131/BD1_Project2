@@ -48,15 +48,18 @@ export const updateEmpleado = async (req, res) => {
         if (!id) { //Verifica que se haya enviado un id
             return res.status(400).json({ message: 'Debe ingresar un id' });
         }
-        if (!usuario || !contrasena || !id_persona || !id_rol) { //Verifica que se hayan enviado los datos necesarios
-            return res.status(400).json({ message: 'Debe ingresar un usuario, contraseña, id_persona y id_rol' });
+        if (!usuario || !id_persona || !id_rol) { //Verifica que se hayan enviado los datos necesarios
+            return res.status(400).json({ message: 'Debe ingresar un usuario, id_persona y id_rol' });
         }
 
-        const salt = bcrypt.genSaltSync(10); //Genera un salt para encriptar la contraseña
-        const hash = bcrypt.hashSync(contrasena, salt); //Encripta la contraseña
-
-        // Actualiza el empleado
-        const result = await pool.query('UPDATE empleado SET usuario = $1, contrasena = $2, id_persona = $3, id_rol = $4 WHERE id_empleado = $5 RETURNING *', [usuario, hash, id_persona, id_rol, id]);
+        let result;
+        if (contrasena) {
+            const salt = bcrypt.genSaltSync(10); //Genera un salt para encriptar la contraseña
+            const hash = bcrypt.hashSync(contrasena, salt); //Encripta la contraseña
+            result = await pool.query('UPDATE empleado SET usuario = $1, contrasena = $2, id_persona = $3, id_rol = $4 WHERE id_empleado = $5 RETURNING *', [usuario, hash, id_persona, id_rol, id]);
+        } else {
+            result = await pool.query('UPDATE empleado SET usuario = $1, id_persona = $2, id_rol = $3 WHERE id_empleado = $4 RETURNING *', [usuario, id_persona, id_rol, id]);
+        }
         if (result.rows.length === 0) {
             return res.status(404).json({ message: 'No se encontró el empleado' });
         }
