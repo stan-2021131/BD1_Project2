@@ -13,9 +13,9 @@ const Navbar = () => {
             <h3>Bienvenido: {user.usuario}</h3>
 
             {/*Opciones para TODOS */}
-            <Link to="/"><button>Compras</button></Link>
-            <Link to="/"><button>Ventas</button></Link>
-            <Link to="/productos"><button>Productos</button></Link>
+            <Link to="/dashboard"><button>Ventas</button></Link>
+            <Link to="/dashboard"><button>Compras</button></Link>
+            <Link to="/dashboard/productos"><button>Productos</button></Link>
 
             {/*Solo admin */}
             {isAdmin && (
