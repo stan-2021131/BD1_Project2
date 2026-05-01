@@ -9,6 +9,10 @@ const createCarrito = () => {
             case "AGREGAR":
                 const existing = state.find(i => i.id_producto === action.payload.id_producto);
                 if (existing) {
+                    const nuevaCantidad = existing.cantidad + action.payload.cantidad;
+                    if (nuevaCantidad <= 0) {
+                        return state.filter(i => i.id_producto !== action.payload.id_producto);
+                    }
                     return state.map(i =>
                         i.id_producto === action.payload.id_producto
                             ? { ...i, cantidad: i.cantidad + action.payload.cantidad }
