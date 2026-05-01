@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import "./style.css";
 
 const ClienteForm = ({ selected, clear, refresh }) => {
     const initialForm = {
@@ -67,17 +68,17 @@ const ClienteForm = ({ selected, clear, refresh }) => {
     };
 
     return (
-        <div>
-            <h3>{selected ? "Editar" : "Crear"} Cliente</h3>
+        <div className="form-container">
+            <h3 className="form-title">{selected ? "Editar" : "Crear"} Cliente</h3>
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>NIT</label>
-                    <input name="nit" placeholder="NIT" value={form.nit} onChange={handleChange} />
+                <div className="form-group">
+                    <label className="form-label">NIT</label>
+                    <input className="form-input" name="nit" placeholder="NIT" value={form.nit} onChange={handleChange} />
                 </div>
-                <div>
-                    <label>Persona</label>
-                    <select name="id_persona" value={form.id_persona} onChange={handleChange} disabled={selected ? true : false}>
+                <div className="form-group">
+                    <label className="form-label">Persona</label>
+                    <select className="form-select" name="id_persona" value={form.id_persona} onChange={handleChange} disabled={selected ? true : false}>
                         <option value={0} disabled>Seleccione una persona</option>
                         {personas.map((per) => (
                             <option key={per.id_persona} value={per.id_persona}>
@@ -86,15 +87,17 @@ const ClienteForm = ({ selected, clear, refresh }) => {
                         ))}
                     </select>
                 </div>
-                <button type="submit">
-                    {selected ? "Actualizar" : "Crear"}
-                </button>
-
-                {selected && (
-                    <button type="button" onClick={clear}>
-                        Cancelar
+                <div className="form-actions">
+                    <button className="form-btn" type="submit">
+                        {selected ? "Actualizar" : "Crear"}
                     </button>
-                )}
+
+                    {selected && (
+                        <button className="form-btn cancel" type="button" onClick={clear}>
+                            Cancelar
+                        </button>
+                    )}
+                </div>
             </form>
         </div>
     );

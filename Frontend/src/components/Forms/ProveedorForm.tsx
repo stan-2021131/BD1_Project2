@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import "./style.css";
 
 const ProveedorForm = ({ selected, clear, refresh }) => {
     const initialForm = {
@@ -54,34 +55,36 @@ const ProveedorForm = ({ selected, clear, refresh }) => {
     };
 
     return (
-        <div>
-            <h3>{selected ? "Editar" : "Crear"} Proveedor</h3>
+        <div className="form-container">
+            <h3 className="form-title">{selected ? "Editar" : "Crear"} Proveedor</h3>
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Nombre</label>
-                    <input name="proveedor" value={form.proveedor} onChange={handleChange} />
+                <div className="form-group">
+                    <label className="form-label">Nombre</label>
+                    <input className="form-input" name="proveedor" value={form.proveedor} onChange={handleChange} />
                 </div>
 
-                <div>
-                    <label>Dirección</label>
-                    <input name="direccion" value={form.direccion} onChange={handleChange} />
+                <div className="form-group">
+                    <label className="form-label">Dirección</label>
+                    <input className="form-input" name="direccion" value={form.direccion} onChange={handleChange} />
                 </div>
 
-                <div>
-                    <label>Contacto</label>
-                    <input name="contacto" value={form.contacto} onChange={handleChange} />
+                <div className="form-group">
+                    <label className="form-label">Contacto</label>
+                    <input className="form-input" name="contacto" value={form.contacto} onChange={handleChange} />
                 </div>
 
-                <button type="submit">
-                    {selected ? "Actualizar" : "Crear"}
-                </button>
-
-                {selected && (
-                    <button type="button" onClick={clear}>
-                        Cancelar
+                <div className="form-actions">
+                    <button className="form-btn" type="submit">
+                        {selected ? "Actualizar" : "Crear"}
                     </button>
-                )}
+
+                    {selected && (
+                        <button className="form-btn cancel" type="button" onClick={clear}>
+                            Cancelar
+                        </button>
+                    )}
+                </div>
             </form>
         </div>
     );

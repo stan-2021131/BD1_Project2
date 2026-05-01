@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import "./style.css";
 
 const EmpleadoForm = ({ selected, clear, refresh }) => {
 
@@ -75,23 +76,23 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
     };
 
     return (
-        <div>
-            <h3>{selected ? "Editar" : "Crear"} Empleado</h3>
+        <div className="form-container">
+            <h3 className="form-title">{selected ? "Editar" : "Crear"} Empleado</h3>
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Usuario</label>
-                    <input name="usuario" value={form.usuario} onChange={handleChange} />
+                <div className="form-group">
+                    <label className="form-label">Usuario</label>
+                    <input className="form-input" name="usuario" value={form.usuario} onChange={handleChange} />
                 </div>
 
-                <div>
-                    <label>Contraseña</label>
-                    <input type="password" name="contrasena" value={form.contrasena} onChange={handleChange} placeholder="Dejar en blanco para no cambiar" />
+                <div className="form-group">
+                    <label className="form-label">Contraseña</label>
+                    <input className="form-input" type="password" name="contrasena" value={form.contrasena} onChange={handleChange} placeholder={selected ? "Dejar en blanco para no cambiar" : "Contraseña"} />
                 </div>
 
-                <div>
-                    <label>Persona</label>
-                    <select
+                <div className="form-group">
+                    <label className="form-label">Persona</label>
+                    <select className="form-select"
                         name="id_persona"
                         value={form.id_persona}
                         onChange={handleChange}
@@ -106,9 +107,9 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
                     </select>
                 </div>
 
-                <div>
-                    <label>Rol</label>
-                    <select name="id_rol" value={form.id_rol} onChange={handleChange}>
+                <div className="form-group">
+                    <label className="form-label">Rol</label>
+                    <select className="form-select" name="id_rol" value={form.id_rol} onChange={handleChange}>
                         <option value={0} disabled>Seleccione un rol</option>
                         {roles.map((r) => (
                             <option key={r.id_rol} value={r.id_rol}>
@@ -118,15 +119,17 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
                     </select>
                 </div>
 
-                <button type="submit">
-                    {selected ? "Actualizar" : "Crear"}
-                </button>
-
-                {selected && (
-                    <button type="button" onClick={clear}>
-                        Cancelar
+                <div className="form-actions">
+                    <button className="form-btn" type="submit">
+                        {selected ? "Actualizar" : "Crear"}
                     </button>
-                )}
+
+                    {selected && (
+                        <button className="form-btn cancel" type="button" onClick={() => { clear(); setForm(initialForm); }}>
+                            Cancelar
+                        </button>
+                    )}
+                </div>
             </form>
         </div>
     );

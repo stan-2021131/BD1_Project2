@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import "./style.css";
 
 const PersonaForm = ({ selected, clear, refresh }) => {
 
@@ -48,28 +49,26 @@ const PersonaForm = ({ selected, clear, refresh }) => {
     };
 
     return (
-        <div>
-            <h3>{selected ? "Editar" : "Crear"} Persona</h3>
+        <div className="form-container">
+            <h3 className="form-title">{selected ? "Editar" : "Crear"} Persona</h3>
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Nombre</label>
-                    <input
-                        name="nombre"
-                        value={form.nombre}
-                        onChange={handleChange}
-                    />
+                <div className="form-group">
+                    <label className="form-label">Nombre</label>
+                    <input className="form-input" name="nombre" value={form.nombre} onChange={handleChange} />
                 </div>
 
-                <button type="submit">
-                    {selected ? "Actualizar" : "Crear"}
-                </button>
-
-                {selected && (
-                    <button type="button" onClick={clear}>
-                        Cancelar
+                <div className="form-actions">
+                    <button className="form-btn" type="submit">
+                        {selected ? "Actualizar" : "Crear"}
                     </button>
-                )}
+
+                    {selected && (
+                        <button className="form-btn cancel" type="button" onClick={clear}>
+                            Cancelar
+                        </button>
+                    )}
+                </div>
             </form>
         </div>
     );

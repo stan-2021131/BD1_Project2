@@ -3,6 +3,7 @@ import { api } from "../../services/Api";
 import { CarritoVentasContext } from "../../context/CarritoContext";
 import CarritoTable from "../Cart/Cart";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const VentaForm = ({ close, refresh }) => {
     const { state, dispatch } = useContext(CarritoVentasContext);
@@ -64,12 +65,12 @@ const VentaForm = ({ close, refresh }) => {
     };
 
     return (
-        <div>
-            <h3>Nueva Venta</h3>
+        <div className="form-container">
+            <h3 className="form-title">Nueva Venta</h3>
 
-            <div>
-                <label>Cliente</label>
-                <select onChange={(e) => setCliente(e.target.value)}>
+            <div className="form-group">
+                <label className="form-label">Cliente</label>
+                <select className="form-select" onChange={(e) => setCliente(e.target.value)}>
                     <option>Seleccione</option>
                     {clientes.map((c) => (
                         <option key={c.id_cliente} value={c.id_cliente}>
@@ -79,9 +80,9 @@ const VentaForm = ({ close, refresh }) => {
                 </select>
             </div>
 
-            <div>
-                <label>Forma de Pago</label>
-                <select onChange={(e) => setFormaPago(e.target.value)}>
+            <div className="form-group">
+                <label className="form-label">Forma de Pago</label>
+                <select className="form-select" onChange={(e) => setFormaPago(e.target.value)}>
                     <option>Seleccione</option>
                     {formasPago.map((f) => (
                         <option key={f.id_forma} value={f.id_forma}>
@@ -94,8 +95,10 @@ const VentaForm = ({ close, refresh }) => {
             {/* CARRITO */}
             <CarritoTable items={state} editable={true} dispatch={dispatch} />
 
-            <button onClick={handleSubmit}>Confirmar venta</button>
-            <button onClick={close}>Cancelar</button>
+            <div className="form-actions">
+                <button className="form-btn" onClick={handleSubmit}>Confirmar venta</button>
+                <button className="form-btn cancel" onClick={close}>Cancelar</button>
+            </div>
         </div>
     );
 };
