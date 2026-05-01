@@ -1,5 +1,6 @@
 import { useUser } from "../../context/UserContext";
 import { Link } from "react-router-dom";
+import "./style.css";
 
 const Navbar = () => {
     const { user, logout } = useUser();
@@ -9,27 +10,34 @@ const Navbar = () => {
     const isAdmin = Number(user.id_rol) === 1;
 
     return (
-        <nav>
-            <h3>Bienvenido: {user.usuario}</h3>
+        <nav className="navbar">
+            <div className="navbar-left">
+                <h3>Bienvenido: {user.usuario}</h3>
+            </div>
 
-            {/*Opciones para TODOS */}
-            <Link to="/dashboard"><button>Ventas</button></Link>
-            <Link to="/dashboard/compras"><button>Compras</button></Link>
-            <Link to="/dashboard/productos"><button>Productos</button></Link>
+            <div className="navbar-right">
 
-            {/*Solo admin */}
-            {isAdmin && (
-                <>
-                    <Link to={"/dashboard/clientes"}><button>Clientes</button></Link>
-                    <Link to={"/dashboard/proveedores"}><button>Proveedores</button></Link>
-                    <Link to={"/dashboard/empleados"}><button>Empleados</button></Link>
-                    <Link to={"/dashboard/personas"}><button>Personas</button></Link>
-                    <Link to={"/dashboard/categorias"}><button>Categorías</button></Link>
-                    <button>Reportes</button>
-                </>
-            )}
+                {/* TODOS */}
+                <Link to="/dashboard">Ventas</Link>
+                <Link to="/dashboard/compras">Compras</Link>
+                <Link to="/dashboard/productos">Productos</Link>
 
-            <button onClick={logout}>Cerrar sesión</button>
+                {/* ADMIN */}
+                {isAdmin && (
+                    <>
+                        <Link to="/dashboard/clientes">Clientes</Link>
+                        <Link to="/dashboard/proveedores">Proveedores</Link>
+                        <Link to="/dashboard/empleados">Empleados</Link>
+                        <Link to="/dashboard/personas">Personas</Link>
+                        <Link to="/dashboard/categorias">Categorías</Link>
+                        <span className="link">Reportes</span>
+                    </>
+                )}
+
+                <span className="logout" onClick={logout}>
+                    Cerrar sesión
+                </span>
+            </div>
         </nav>
     );
 };

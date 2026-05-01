@@ -1,3 +1,5 @@
+import "./style.css";
+
 const CarritoItem = ({ item, editable, dispatch }) => {
     const precio = item.precio_unitario || item.precio_venta || item.precio_compra;
     const subtotal = item.cantidad * precio;
@@ -25,30 +27,34 @@ const CarritoItem = ({ item, editable, dispatch }) => {
     };
 
     return (
-        <tr>
-            <td>{item.producto}</td>
-            <td>{precio}</td>
+        <div className="cart-item">
+            <div className="cart-item-info">
+                <span className="cart-name">{item.producto}</span>
+                <span className="cart-price">Q {precio}</span>
+            </div>
 
-            <td>
+            <div className="cart-item-actions">
                 {editable ? (
                     <>
                         <button onClick={disminuir}>-</button>
-                        {item.cantidad}
+                        <span>{item.cantidad}</span>
                         <button onClick={aumentar}>+</button>
                     </>
                 ) : (
-                    item.cantidad
+                    <span>{item.cantidad}</span>
                 )}
-            </td>
+            </div>
 
-            <td>{subtotal.toFixed(2)}</td>
+            <div className="cart-subtotal">
+                Q {subtotal.toFixed(2)}
+            </div>
 
-            <td>
-                {editable && (
-                    <button onClick={eliminar}>Eliminar</button>
-                )}
-            </td>
-        </tr>
+            {editable && (
+                <button className="cart-delete" onClick={eliminar}>
+                    ✕
+                </button>
+            )}
+        </div>
     );
 };
 

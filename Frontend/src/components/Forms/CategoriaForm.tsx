@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import "./style.css";
 
 const CategoriaForm = ({ selected, clear, refresh }) => {
 
@@ -42,25 +43,31 @@ const CategoriaForm = ({ selected, clear, refresh }) => {
     };
 
     return (
-        <div>
-            <h3>{selected ? "Editar" : "Crear"} Categoría</h3>
+        <div className="form-container">
+            <h3 className="form-title">{selected ? "Editar" : "Crear"} Categoría</h3>
 
             <form onSubmit={handleSubmit}>
-                <input
-                    value={form.categoria}
-                    onChange={handleChange}
-                    placeholder="Nombre"
-                />
+                <div className="form-group">
+                    <label className="form-label">Nombre</label>
+                    <input
+                        className="form-input"
+                        value={form.categoria}
+                        onChange={handleChange}
+                        placeholder="Nombre"
+                    />
+                </div>
 
-                <button type="submit">
-                    {selected ? "Actualizar" : "Crear"}
-                </button>
-
-                {selected && (
-                    <button type="button" onClick={clear}>
-                        Cancelar
+                <div className="form-actions">
+                    <button className="form-btn" type="submit">
+                        {selected ? "Actualizar" : "Crear"}
                     </button>
-                )}
+
+                    {selected && (
+                        <button className="form-btn cancel" type="button" onClick={clear}>
+                            Cancelar
+                        </button>
+                    )}
+                </div>
             </form>
         </div>
     );

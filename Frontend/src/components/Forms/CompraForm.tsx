@@ -3,6 +3,7 @@ import { api } from "../../services/Api";
 import { CarritoComprasContext } from "../../context/CarritoContext";
 import CarritoTable from "../Cart/Cart";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const CompraForm = ({ close, refresh }) => {
     const { state, dispatch } = useContext(CarritoComprasContext);
@@ -64,12 +65,12 @@ const CompraForm = ({ close, refresh }) => {
     };
 
     return (
-        <div>
-            <h3>Nueva Compra</h3>
+        <div className="form-container">
+            <h3 className="form-title">Nueva Compra</h3>
 
-            <div>
-                <label>Proveedor</label>
-                <select onChange={(e) => setProveedor(e.target.value)}>
+            <div className="form-group">
+                <label className="form-label">Proveedor</label>
+                <select className="form-select" onChange={(e) => setProveedor(e.target.value)}>
                     <option>Seleccione</option>
                     {proveedores.map((p) => (
                         <option key={p.id_proveedor} value={p.id_proveedor}>
@@ -79,9 +80,9 @@ const CompraForm = ({ close, refresh }) => {
                 </select>
             </div>
 
-            <div>
-                <label>Forma de Pago</label>
-                <select onChange={(e) => setFormaPago(e.target.value)}>
+            <div className="form-group">
+                <label className="form-label">Forma de Pago</label>
+                <select className="form-select" onChange={(e) => setFormaPago(e.target.value)}>
                     <option>Seleccione</option>
                     {formasPago.map((f) => (
                         <option key={f.id_forma} value={f.id_forma}>
@@ -92,10 +93,14 @@ const CompraForm = ({ close, refresh }) => {
             </div>
 
             {/* CARRITO */}
-            <CarritoTable items={state} editable={true} dispatch={dispatch} />
+            <div className="form-cart">
+                <CarritoTable items={state} editable={true} dispatch={dispatch} />
+            </div>
 
-            <button onClick={handleSubmit}>Confirmar compra</button>
-            <button onClick={close}>Cancelar</button>
+            <div className="form-actions">
+                <button className="form-btn" onClick={handleSubmit}>Confirmar compra</button>
+                <button className="form-btn cancel" onClick={close}>Cancelar</button>
+            </div>
         </div>
     );
 };
