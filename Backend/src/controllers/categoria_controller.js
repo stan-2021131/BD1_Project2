@@ -64,25 +64,60 @@ export const updateCategoria = async (req, res) => {
 }
 
 export const deleteCategoria = async (req, res) => {
-    try {
-        const { id } = req.params;
+    const { id } = req.params;
 
-        if (!id) {
-            return res.status(400).json({ message: 'Debe ingresar un id' });
+    if (!id) {
+        return res.status(400).json({ message: 'Debe ingresar un id' });
+    }
+
+    const client = await pool.connect();
+
+    try {
+        await client.query('BEGIN');
+
+        const categoriaOtros = await client.query(
+            "SELECT id_categoria FROM categoria WHERE categoria = 'Otros'"
+        );
+
+        if (categoriaOtros.rows.length === 0) {
+            await client.query('ROLLBACK');
+            return res.status(500).json({ message: 'Categoría "Otros" no configurada' });
         }
 
-        const result = await pool.query('DELETE FROM categoria WHERE id_categoria = $1 RETURNING *', [id]);
+        const idOtros = categoriaOtros.rows[0].id_categoria;
+
+        if (Number(id) === Number(idOtros)) {
+            await client.query('ROLLBACK');
+            return res.status(400).json({ message: 'No se puede eliminar la categoría "Otros"' });
+        }
+
+        await client.query(
+            'UPDATE producto SET id_categoria = $1 WHERE id_categoria = $2',
+            [idOtros, id]
+        );
+
+        const result = await client.query(
+            'DELETE FROM categoria WHERE id_categoria = $1 RETURNING *',
+            [id]
+        );
 
         if (result.rows.length === 0) {
+            await client.query('ROLLBACK');
             return res.status(404).json({ message: 'No se encontró la categoría' });
         }
+
+        await client.query('COMMIT');
 
         res.status(200).json({
             ok: true,
             data: result.rows[0]
         });
+
     } catch (error) {
+        await client.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Error al eliminar la categoría' });
+    } finally {
+        client.release();
     }
-}
+};

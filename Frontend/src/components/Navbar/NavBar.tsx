@@ -24,7 +24,7 @@ const Navbar = () => {
                     <Link to={"/dashboard/proveedores"}><button>Proveedores</button></Link>
                     <Link to={"/dashboard/empleados"}><button>Empleados</button></Link>
                     <Link to={"/dashboard/personas"}><button>Personas</button></Link>
-                    <button>Categorías</button>
+                    <Link to={"/dashboard/categorias"}><button>Categorías</button></Link>
                     <button>Reportes</button>
                 </>
             )}
