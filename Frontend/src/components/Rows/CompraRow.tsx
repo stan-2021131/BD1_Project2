@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "../../services/Api";
 import CarritoTable from "../Cart/Cart";
+import "./style.css";
 
 const CompraRow = ({ compra, refresh }) => {
     const [detalle, setDetalle] = useState(null);
@@ -30,15 +31,15 @@ const CompraRow = ({ compra, refresh }) => {
 
     return (
         <>
-            <tr>
+            <tr className="row">
                 <td>{compra.proveedor}</td>
                 <td>{new Date(compra.fecha).toLocaleDateString()}</td>
                 <td>{compra.forma_pago}</td>
                 <td>{compra.usuario}</td>
                 <td>{compra.estado}</td>
-                <td>
-                    <button onClick={verDetalle}>{detalle ? "Ocultar" : "Ver"} detalle</button>
-                    {compra.estado === "ACTIVO" && <button onClick={anular}>Anular</button>}
+                <td className="row-actions">
+                    <button onClick={verDetalle} className="row-btn view">{detalle ? "Ocultar" : "Ver"} detalle</button>
+                    {compra.estado === "ACTIVO" && <button onClick={anular} className="row-btn delete">Anular</button>}
                 </td>
             </tr>
 
@@ -47,7 +48,7 @@ const CompraRow = ({ compra, refresh }) => {
                     <td colSpan={6}>
                         <CarritoTable items={detalle.productos} editable={false} dispatch={null} />
                     </td>
-                </tr>
+                </tr >
             )}
         </>
     );

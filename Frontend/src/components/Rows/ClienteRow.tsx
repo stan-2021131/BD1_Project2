@@ -1,5 +1,6 @@
 import { api } from "../../services/Api";
 import { useUser } from "../../context/UserContext";
+import "./style.css";
 
 const ClienteRow = ({ cliente, onSelect, refresh }: any) => {
     const { user } = useUser();
@@ -20,15 +21,15 @@ const ClienteRow = ({ cliente, onSelect, refresh }: any) => {
     };
 
     return (
-        <tr>
+        <tr className="row">
             <td>{cliente.nit}</td>
             <td>{cliente.nombre}</td>
 
-            <td>
+            <td className="row-actions">
                 {isAdmin && (
                     <>
-                        <button onClick={() => onSelect(cliente)}>Editar</button>
-                        <button onClick={handleDelete}>Eliminar</button>
+                        <button onClick={() => onSelect(cliente)} className="row-btn edit">Editar</button>
+                        <button onClick={handleDelete} className="row-btn delete">Eliminar</button>
                     </>
                 )}
             </td>

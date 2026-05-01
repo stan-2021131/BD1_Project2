@@ -2,6 +2,7 @@ import { api } from "../../services/Api";
 import { useContext, useState } from "react";
 import { useUser } from "../../context/UserContext";
 import { CarritoComprasContext, CarritoVentasContext } from "../../context/CarritoContext";
+import "./style.css";
 
 const ProductoRow = ({ producto, onSelect, refresh }: any) => {
     const [cantidad, setCantidad] = useState(1);
@@ -75,25 +76,23 @@ const ProductoRow = ({ producto, onSelect, refresh }: any) => {
     };
 
     return (
-        <tr>
+        <tr className="row">
             <td>{producto.producto}</td>
             <td>{producto.descripcion}</td>
             <td>{producto.stock}</td>
             <td>{producto.precio_venta}</td>
             <td>{producto.categoria}</td>
 
-            <td>
+            <td className="row-actions">
                 {isAdmin && (
                     <>
-                        <button onClick={() => onSelect(producto)}>Editar</button>
-                        <button onClick={handleDelete}>Eliminar</button>
+                        <button onClick={() => onSelect(producto)} className="row-btn edit">Editar</button>
+                        <button onClick={handleDelete} className="row-btn delete">Eliminar</button>
                     </>
                 )}
-                <>
-                    <input type="number" value={cantidad} onChange={(e) => setCantidad(Number(e.target.value))} />
-                    <button onClick={handleAddVenta}>Agregar a venta</button>
-                    <button onClick={handleAddCompra}>Agregar a compra</button>
-                </>
+                <input type="number" value={cantidad} onChange={(e) => setCantidad(Number(e.target.value))} />
+                <button onClick={handleAddVenta} className="row-btn addV">Agregar a venta</button>
+                <button onClick={handleAddCompra} className="row-btn addC">Agregar a compra</button>
             </td>
         </tr>
     );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "../../services/Api";
 import CarritoTable from "../Cart/Cart";
+import "./style.css";
 
 const VentaRow = ({ venta, refresh }) => {
     const [detalle, setDetalle] = useState(null);
@@ -30,22 +31,22 @@ const VentaRow = ({ venta, refresh }) => {
 
     return (
         <>
-            <tr>
+            <tr className="row">
                 <td>{venta.nit}</td>
                 <td>{venta.nombre}</td>
                 <td>{new Date(venta.fecha).toLocaleDateString()}</td>
                 <td>{venta.usuario}</td>
                 <td>{venta.forma_pago}</td>
                 <td>{venta.estado}</td>
-                <td>
-                    <button onClick={verDetalle}>{detalle ? "Ocultar" : "Ver"} detalle</button>
-                    {venta.estado === "ACTIVO" && <button onClick={anular}>Anular</button>}
+                <td className="row-actions">
+                    <button onClick={verDetalle} className="row-btn view">{detalle ? "Ocultar" : "Ver"} detalle</button>
+                    {venta.estado === "ACTIVO" && <button onClick={anular} className="row-btn delete">Anular</button>}
                 </td>
             </tr>
 
             {detalle && (
                 <tr>
-                    <td colSpan={6}>
+                    <td colSpan={7}>
                         <CarritoTable items={detalle.productos} editable={false} dispatch={null} />
                     </td>
                 </tr>
