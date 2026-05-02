@@ -174,4 +174,53 @@ El archivo `.env` debe contener:
 
 ---
 
-> _*Nota: Esta documentación se centró en las entregas operativas del Backend y de Base de Datos. La información detallada del Frontend será completada una vez se disponga formalmente.*_
+## Frontend (`/Frontend`)
+
+El frontend proporciona la interfaz de usuario para la interacción con el sistema de inventario y ventas, construido con una arquitectura moderna de componentes y enrutamiento del lado del cliente.
+
+### Tecnologías Principales
+- **React (v19)**: Librería principal para construir la interfaz de usuario interactiva y basada en componentes.
+- **TypeScript**: Para añadir tipado estático, reduciendo errores y mejorando la mantenibilidad del código.
+- **Vite**: Herramienta de compilación y servidor de desarrollo ultrarrápido.
+- **React Router DOM**: Gestión de rutas, permitiendo una experiencia fluida de Single Page Application (SPA).
+- **CSS Vanilla / Módulos**: Estilos a medida para cada vista y componente.
+
+### Estructura de la Interfaz
+
+El código fuente del frontend se estructura en `/Frontend/src` de la siguiente manera:
+
+- **`/app`**: Contiene la definición y configuración principal del enrutador (`router.tsx`).
+- **`/components`**: Elementos de UI modulares y reutilizables, como componentes para protección de rutas (`ProtectedRoute`), formularios (`Forms`), y visualizaciones.
+- **`/context`**: Proveedores de estado global para manejar aspectos como la autenticación del usuario.
+- **`/layout`**: Componentes estructurales de la página, por ejemplo, el marco o panel general (`MainLayout`) que encapsula la navegación de las vistas.
+- **`/pages`**: Módulos completos para las vistas del sistema:
+  - `Login/`: Módulo de autenticación inicial.
+  - `cruds/`: Conjunto de vistas para administrar las operaciones CRUD de cada entidad del sistema (Ventas, Compras, Productos, Categorías, Clientes, Proveedores, Empleados, Personas).
+  - `Reporte/`: Vista para la visualización de datos estadísticos y KPIs generados por la base de datos.
+- **`/services`**: Lógica de integración y consumo de la API REST. Se incluye un cliente unificado (`Api.ts`) que abstrae las peticiones nativas (`fetch`) hacia el backend local (`http://localhost:3000/api`).
+
+### Rutas y Control de Acceso
+
+La navegación depende del estado de autenticación y los permisos del rol del empleado:
+- **Ruta Pública (`/`)**: Corresponde al `Login`, donde se verifica el inicio de sesión.
+- **Rutas Privadas (`/dashboard/*`)**: Encapsuladas en `MainLayout` y aseguradas por `ProtectedRoute`. Restringen el acceso para que empleados no autorizados no puedan entrar a módulos no permitidos, o redirigen de nuevo al Login si no hay sesión activa.
+- **Vistas Especializadas**: Las diferentes subrutas de CRUDs listan los datos y posibilitan registrar nuevas compras y ventas, conectándose directamente con los procesos transaccionales avanzados del backend.
+
+## Cómo usar el sistema (flujo)
+## Uso del sistema
+
+1. Iniciar sesión con credenciales válidas
+2. Crear productos en el módulo de productos
+3. Registrar compras para aumentar el inventario
+4. Registrar ventas para reducir el stock
+5. Consultar reportes desde el módulo correspondiente
+
+## Reportes
+
+El sistema incluye reportes accesibles desde la interfaz:
+
+- Productos más vendidos
+- Clientes con mayor número de compras
+- Ventas totales por transacción
+
+Estos reportes pueden exportarse a formato CSV.

@@ -1,0 +1,33 @@
+.reportes-container {
+    padding: 20px;
+}
+
+.reportes-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.reporte-card {
+    flex: 1;
+    min-width: 250px;
+
+    background: var(--color-surface);
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    text-align: center;
+}
+
+.reporte-card h3 {
+    font-size: 16px;
+}
+
+.reporte-card button {
+    width: 100%;
+}

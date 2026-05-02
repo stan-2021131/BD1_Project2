@@ -32,10 +32,15 @@ services:
       - "${FRONTEND_PORT}:5173"
     depends_on:
       - backendpr
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./Frontend:/app
+      - /app/node_modules
 
-  adminer:
+  adminerpr:
     image: adminer:latest
-    container_name: adminer
+    container_name: adminerpr
     restart: unless-stopped
     ports:
       - "8080:8080"
