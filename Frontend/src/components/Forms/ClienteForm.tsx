@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import FormError from "../FormError/FormError";
+import type { ClienteFormValues, ClienteFormErrors } from "../../utils/FormTypes";
+import { validateClienteForm } from "../../utils/ValidateForms";
 import "./style.css";
 
-const ClienteForm = ({ selected, clear, refresh }) => {
-    const initialForm = {
+const ClienteForm = ({ selected, clear, refresh }: { selected: any, clear: () => void, refresh: () => void }) => {
+    const initialForm: ClienteFormValues = {
         nit: "",
         id_persona: 0
     };
     const [form, setForm] = useState(initialForm);
+
+    const [errors, setErrors] = useState<ClienteFormErrors>({});
 
     const [personas, setPersonas] = useState([]);
 
@@ -37,10 +42,24 @@ const ClienteForm = ({ selected, clear, refresh }) => {
             ...form,
             [name]: name === "id_persona" ? Number(value) : value
         });
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: undefined
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const validateErrors = validateClienteForm(form);
+
+        if (Object.keys(validateErrors).length > 0) {
+            setErrors(validateErrors);
+            return;
+        }
+
+        setErrors({});
 
         if (selected) {
             try {
@@ -74,11 +93,12 @@ const ClienteForm = ({ selected, clear, refresh }) => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="form-label">NIT</label>
-                    <input className="form-input" name="nit" placeholder="NIT" value={form.nit} onChange={handleChange} />
+                    <input className={`form-input ${errors.nit ? "form-input-error" : ""}`} name="nit" placeholder="NIT" value={form.nit} onChange={handleChange} />
+                    <FormError message={errors.nit} />
                 </div>
                 <div className="form-group">
                     <label className="form-label">Persona</label>
-                    <select className="form-select" name="id_persona" value={form.id_persona} onChange={handleChange} disabled={selected ? true : false}>
+                    <select className={`form-select ${errors.id_persona ? "form-input-error" : ""}`} name="id_persona" value={form.id_persona} onChange={handleChange} disabled={selected ? true : false}>
                         <option value={0} disabled>Seleccione una persona</option>
                         {personas.map((per) => (
                             <option key={per.id_persona} value={per.id_persona}>
@@ -86,6 +106,7 @@ const ClienteForm = ({ selected, clear, refresh }) => {
                             </option>
                         ))}
                     </select>
+                    <FormError message={errors.id_persona} />
                 </div>
                 <div className="form-actions">
                     <button className="form-btn" type="submit">

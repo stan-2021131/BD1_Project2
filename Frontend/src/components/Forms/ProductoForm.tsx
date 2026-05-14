@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import FormError from "../FormError/FormError";
+import type { ProductoFormValues, ProductoFormErrors } from "../../utils/FormTypes";
+import { validateProductoForm } from "../../utils/ValidateForms";
 import "./style.css";
 
 const ProductoForm = ({ selected, clear, refresh }) => {
-    const [form, setForm] = useState({
+    const initialForm: ProductoFormValues = {
         producto: "",
         descripcion: "",
         stock: 0,
         precio_compra: 0,
         precio_venta: 0,
         id_categoria: 1,
-    });
+    };
 
+    const [form, setForm] = useState(initialForm);
+    const [errors, setErrors] = useState<ProductoFormErrors>({});
     const [categorias, setCategorias] = useState([]);
 
     // cargar categorías
@@ -40,10 +45,24 @@ const ProductoForm = ({ selected, clear, refresh }) => {
             ...form,
             [name]: name === "id_categoria" ? Number(value) : value
         });
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: undefined
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const validateErrors = validateProductoForm(form);
+
+        if (Object.keys(validateErrors).length > 0) {
+            setErrors(validateErrors);
+            return;
+        }
+
+        setErrors({});
 
         if (selected) {
             try {
@@ -75,23 +94,28 @@ const ProductoForm = ({ selected, clear, refresh }) => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="form-label">Nombre</label>
-                    <input className="form-input" name="producto" placeholder="Nombre" value={form.producto} onChange={handleChange} />
+                    <input className={`form-input ${errors.producto ? "form-input-error" : ""}`} name="producto" placeholder="Nombre" value={form.producto} onChange={handleChange} />
+                    <FormError message={errors.producto} />
                 </div>
                 <div className="form-group">
                     <label className="form-label">Descripción</label>
-                    <input className="form-input" name="descripcion" placeholder="Descripción" value={form.descripcion} onChange={handleChange} />
+                    <input className={`form-input ${errors.descripcion ? "form-input-error" : ""}`} name="descripcion" placeholder="Descripción" value={form.descripcion} onChange={handleChange} />
+                    <FormError message={errors.descripcion} />
                 </div>
                 <div className="form-group">
                     <label className="form-label">Stock</label>
-                    <input className="form-input" name="stock" type="number" value={form.stock} onChange={handleChange} />
+                    <input className={`form-input ${errors.stock ? "form-input-error" : ""}`} name="stock" type="number" value={form.stock} onChange={handleChange} />
+                    <FormError message={errors.stock} />
                 </div>
                 <div className="form-group">
                     <label className="form-label">Precio compra</label>
-                    <input className="form-input" name="precio_compra" type="number" step="0.01" value={form.precio_compra} onChange={handleChange} />
+                    <input className={`form-input ${errors.precio_compra ? "form-input-error" : ""}`} name="precio_compra" type="number" step="0.01" value={form.precio_compra} onChange={handleChange} />
+                    <FormError message={errors.precio_compra} />
                 </div>
                 <div className="form-group">
                     <label className="form-label">Precio venta</label>
-                    <input className="form-input" name="precio_venta" type="number" step="0.01" value={form.precio_venta} onChange={handleChange} />
+                    <input className={`form-input ${errors.precio_venta ? "form-input-error" : ""}`} name="precio_venta" type="number" step="0.01" value={form.precio_venta} onChange={handleChange} />
+                    <FormError message={errors.precio_venta} />
                 </div>
                 <div className="form-group">
                     <label className="form-label">Categoría</label>
@@ -102,6 +126,7 @@ const ProductoForm = ({ selected, clear, refresh }) => {
                             </option>
                         ))}
                     </select>
+                    <FormError message={errors.id_categoria} />
                 </div>
                 <div className="form-actions">
                     <button className="form-btn" type="submit">

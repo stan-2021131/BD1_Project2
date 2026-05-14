@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import FormError from "../FormError/FormError";
+import type { CategoriaFormValues, CategoriaFormErrors } from "../../utils/FormTypes";
+import { validateCategoriaForm } from "../../utils/ValidateForms";
 import "./style.css";
 
-const CategoriaForm = ({ selected, clear, refresh }) => {
+const CategoriaForm = ({ selected, clear, refresh }: { selected: any, clear: () => void, refresh: () => void }) => {
 
-    const initialForm = {
+    const initialForm: CategoriaFormValues = {
         categoria: ""
     };
 
     const [form, setForm] = useState(initialForm);
+
+    const [errors, setErrors] = useState<CategoriaFormErrors>({});
 
     useEffect(() => {
         if (selected) {
@@ -17,11 +22,24 @@ const CategoriaForm = ({ selected, clear, refresh }) => {
     }, [selected]);
 
     const handleChange = (e) => {
-        setForm({ ...form, categoria: e.target.value });
+        setForm({ ...form, [e.target.name]: e.target.value });
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [e.target.name]: undefined
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const validateErrors = validateCategoriaForm(form);
+
+        if (Object.keys(validateErrors).length > 0) {
+            setErrors(validateErrors);
+            return;
+        }
+
+        setErrors({});
 
         try {
             if (selected) {
@@ -50,11 +68,13 @@ const CategoriaForm = ({ selected, clear, refresh }) => {
                 <div className="form-group">
                     <label className="form-label">Nombre</label>
                     <input
-                        className="form-input"
+                        className={`form-input ${errors.categoria ? "form-input-error" : ""}`}
+                        name="categoria"
                         value={form.categoria}
                         onChange={handleChange}
                         placeholder="Nombre"
                     />
+                    <FormError message={errors.categoria} />
                 </div>
 
                 <div className="form-actions">

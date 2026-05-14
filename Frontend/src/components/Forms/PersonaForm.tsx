@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import { validatePersonaForm } from "../../utils/ValidateForms";
+import type { PersonaFormValues, PersonaFormErrors } from "../../utils/FormTypes";
+import FormError from "../FormError/FormError";
 import "./style.css";
 
 const PersonaForm = ({ selected, clear, refresh }) => {
 
-    const initialForm = {
+    const initialForm: PersonaFormValues = {
         nombre: ""
     };
 
-    const [form, setForm] = useState(initialForm);
+    const [form, setForm] = useState<PersonaFormValues>(initialForm);
+    const [errors, setErrors] = useState<PersonaFormErrors>({});
 
     useEffect(() => {
         if (selected) {
@@ -23,10 +27,23 @@ const PersonaForm = ({ selected, clear, refresh }) => {
             ...form,
             [name]: value
         });
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: undefined
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const validateErrors = validatePersonaForm(form);
+        if (Object.keys(validateErrors).length > 0) {
+            setErrors(validateErrors);
+            return;
+        }
+
+        setErrors({});
 
         try {
             if (selected) {
@@ -56,6 +73,7 @@ const PersonaForm = ({ selected, clear, refresh }) => {
                 <div className="form-group">
                     <label className="form-label">Nombre</label>
                     <input className="form-input" name="nombre" value={form.nombre} onChange={handleChange} />
+                    <FormError message={errors.nombre} />
                 </div>
 
                 <div className="form-actions">

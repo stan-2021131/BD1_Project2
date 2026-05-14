@@ -3,17 +3,26 @@ import { api } from "../../services/Api";
 import { CarritoComprasContext } from "../../context/CarritoContext";
 import CarritoTable from "../Cart/Cart";
 import { useUser } from "../../context/UserContext";
+import { validateCompraForm } from "../../utils/ValidateForms";
+import FormError from "../FormError/FormError";
+import type { CompraFormValues, CompraFormErrors } from "../../utils/FormTypes";
 import "./style.css";
 
 const CompraForm = ({ close, refresh }) => {
     const { state, dispatch } = useContext(CarritoComprasContext);
     const { user } = useUser();
 
+    const initialFormState: CompraFormValues = {
+        forma_pago: 0,
+        proveedor: 0
+    };
+
+    const [form, setForm] = useState<CompraFormValues>(initialFormState);
+    const [errors, setErrors] = useState<CompraFormErrors>({});
+
+
     const [proveedores, setProveedores] = useState([]);
     const [formasPago, setFormasPago] = useState([]);
-
-    const [proveedor, setProveedor] = useState("");
-    const [formaPago, setFormaPago] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,27 +36,34 @@ const CompraForm = ({ close, refresh }) => {
         fetchData();
     }, []);
 
-    const handleSubmit = async () => {
-        if (!proveedor) {
-            alert("Debe seleccionar un proveedor");
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: Number(value),
+        }));
+        setErrors((prev) => ({
+            ...prev,
+            [name]: undefined,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const validateErrors = validateCompraForm(form, state);
+
+        if (Object.keys(validateErrors).length > 0) {
+            setErrors(validateErrors);
             return;
         }
 
-        if (!formaPago) {
-            alert("Debe seleccionar una forma de pago");
-            return;
-        }
-
-        if (state.length === 0) {
-            alert("Debe agregar productos");
-            return;
-        }
+        setErrors({});
 
         try {
             await api.post("compra_venta/compra", {
                 encargado: user.id_empleado,
-                forma_pago: Number(formaPago),
-                proveedor: Number(proveedor),
+                forma_pago: Number(form.forma_pago),
+                proveedor: Number(form.proveedor),
                 productos: state.map((p) => ({
                     id_producto: p.id_producto,
                     cantidad: p.cantidad,
@@ -65,46 +81,49 @@ const CompraForm = ({ close, refresh }) => {
     };
 
     return (
-        <div className="form-container">
+        <form className="form-container" onSubmit={handleSubmit}>
             <h3 className="form-title">Nueva Compra</h3>
 
             <div className="form-split">
                 <div className="form-left">
                     <div className="form-group">
                         <label className="form-label">Proveedor</label>
-                        <select className="form-select" onChange={(e) => setProveedor(e.target.value)}>
-                            <option>Seleccione</option>
+                        <select className="form-select" onChange={handleChange} name="proveedor" value={form.proveedor}>
+                            <option value={0} disabled>Seleccione</option>
                             {proveedores.map((p) => (
                                 <option key={p.id_proveedor} value={p.id_proveedor}>
                                     {p.proveedor} - {p.contacto}
                                 </option>
                             ))}
                         </select>
+                        <FormError message={errors.proveedor} />
                     </div>
 
                     <div className="form-group">
                         <label className="form-label">Forma de Pago</label>
-                        <select className="form-select" onChange={(e) => setFormaPago(e.target.value)}>
-                            <option>Seleccione</option>
+                        <select className="form-select" onChange={handleChange} name="forma_pago" value={form.forma_pago}>
+                            <option value={0} disabled>Seleccione</option>
                             {formasPago.map((f) => (
                                 <option key={f.id_forma} value={f.id_forma}>
                                     {f.forma_pago}
                                 </option>
                             ))}
                         </select>
+                        <FormError message={errors.forma_pago} />
                     </div>
                 </div>
 
                 {/* CARRITO */}
                 <div className="form-right">
                     <CarritoTable items={state} editable={true} dispatch={dispatch} />
+                    <FormError message={errors.productos} />
                 </div>
             </div>
             <div className="form-actions">
-                <button className="form-btn" onClick={handleSubmit}>Confirmar compra</button>
+                <button className="form-btn" type="submit">Confirmar compra</button>
                 <button className="form-btn cancel" onClick={close}>Cancelar</button>
             </div>
-        </div>
+        </form>
     );
 };
 
