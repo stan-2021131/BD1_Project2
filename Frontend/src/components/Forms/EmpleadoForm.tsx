@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
+import { validateEmpleadoForm } from "../../utils/ValidateForms";
+import type { EmpleadoFormValues, EmpleadoFormErrors } from "../../utils/FormTypes";
+import FormError from "../FormError/FormError";
 import "./style.css";
 
 const EmpleadoForm = ({ selected, clear, refresh }) => {
-
-    const initialForm = {
+    const initialForm: EmpleadoFormValues = {
         usuario: "",
         contrasena: "",
         id_persona: 0,
         id_rol: 0
     };
 
-    const [form, setForm] = useState(initialForm);
+    const [form, setForm] = useState<EmpleadoFormValues>(initialForm);
 
     const [personas, setPersonas] = useState([]);
     const [roles, setRoles] = useState([]);
+
+    //Manejo de errores
+    const [errors, setErrors] = useState<EmpleadoFormErrors>({});
+
 
     //cargar personas y roles
     useEffect(() => {
@@ -50,10 +56,24 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
                 ? Number(value)
                 : value
         });
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: undefined
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const validateErrors = validateEmpleadoForm(form, selected);
+
+        if (Object.keys(validateErrors).length > 0) {
+            setErrors(validateErrors);
+            return;
+        }
+
+        setErrors({});
 
         try {
             if (selected) {
@@ -75,6 +95,7 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
         }
     };
 
+
     return (
         <div className="form-container">
             <h3 className="form-title">{selected ? "Editar" : "Crear"} Empleado</h3>
@@ -83,11 +104,13 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
                 <div className="form-group">
                     <label className="form-label">Usuario</label>
                     <input className="form-input" name="usuario" value={form.usuario} onChange={handleChange} />
+                    <FormError message={errors.usuario} />
                 </div>
 
                 <div className="form-group">
                     <label className="form-label">Contraseña</label>
                     <input className="form-input" type="password" name="contrasena" value={form.contrasena} onChange={handleChange} placeholder={selected ? "Dejar en blanco para no cambiar" : "Contraseña"} />
+                    <FormError message={errors.contrasena} />
                 </div>
 
                 <div className="form-group">
@@ -105,6 +128,7 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
                             </option>
                         ))}
                     </select>
+                    <FormError message={errors.id_persona} />
                 </div>
 
                 <div className="form-group">
@@ -117,6 +141,7 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
                             </option>
                         ))}
                     </select>
+                    <FormError message={errors.id_rol} />
                 </div>
 
                 <div className="form-actions">
