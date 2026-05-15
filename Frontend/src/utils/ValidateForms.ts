@@ -28,7 +28,7 @@ export const validateCategoriaForm = (form: CategoriaFormValues) => {
 export const validateClienteForm = (form: ClienteFormValues) => {
     const newErrors: ClienteFormErrors = {};
     if (!form.nit) { newErrors.nit = "El NIT es requerido"; }
-    if (form.nit.length < 8 || form.nit.length > 14) { newErrors.nit = "El NIT debe tener entre 8 y 14 caracteres"; }
+    if (form.nit !== 'c/f' && form.nit !== 'C/F' && (form.nit.length < 8 || form.nit.length > 14)) { newErrors.nit = "El NIT debe tener entre 8 y 14 caracteres o ser 'c/f'"; }
     if (form.id_persona === 0) { newErrors.id_persona = "La persona es requerida"; }
     return newErrors;
 };
