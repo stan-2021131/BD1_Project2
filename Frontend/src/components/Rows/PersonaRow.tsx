@@ -2,21 +2,23 @@ import { api } from "../../services/Api";
 import { useUser } from "../../context/UserContext";
 import "./style.css";
 
-const PersonaRow = ({ persona, onSelect, refresh }: any) => {
+const PersonaRow = ({ persona, onSelect, refresh, onSuccess, onError, onClear }: any) => {
     const { user } = useUser();
     const isAdmin = Number(user?.id_rol) === 1;
 
     const handleDelete = async () => {
         if (!confirm("¿Eliminar persona?")) return;
 
+        onClear();
+
         try {
             await api.delete(`persona/${persona.id_persona}`);
-            alert("Persona eliminada");
+            onSuccess("Persona eliminada exitosamente");
             refresh();
         } catch (error: any) {
             console.error(error);
             const message = error.message || "Error desconocido";
-            alert(`Error al eliminar persona: ${message}`);
+            onError(`Error al eliminar persona: ${message}`);
         }
     };
 

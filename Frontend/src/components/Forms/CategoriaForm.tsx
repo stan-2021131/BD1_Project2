@@ -5,7 +5,7 @@ import type { CategoriaFormValues, CategoriaFormErrors } from "../../utils/FormT
 import { validateCategoriaForm } from "../../utils/ValidateForms";
 import "./style.css";
 
-const CategoriaForm = ({ selected, clear, refresh }: { selected: any, clear: () => void, refresh: () => void }) => {
+const CategoriaForm = ({ selected, clear, refresh, onSuccess, onError, onClear }: { selected: any, clear: () => void, refresh: () => void, onSuccess: (message: string) => void, onError: (message: string) => void, onClear: () => void }) => {
 
     const initialForm: CategoriaFormValues = {
         categoria: ""
@@ -31,6 +31,7 @@ const CategoriaForm = ({ selected, clear, refresh }: { selected: any, clear: () 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        onClear();
 
         const validateErrors = validateCategoriaForm(form);
 
@@ -44,10 +45,10 @@ const CategoriaForm = ({ selected, clear, refresh }: { selected: any, clear: () 
         try {
             if (selected) {
                 await api.put(`categoria/${selected.id_categoria}`, form);
-                alert("Categoría actualizada");
+                onSuccess("Categoría actualizada");
             } else {
                 await api.post("categoria", form);
-                alert("Categoría creada");
+                onSuccess("Categoría creada");
             }
 
             clear();
@@ -56,14 +57,13 @@ const CategoriaForm = ({ selected, clear, refresh }: { selected: any, clear: () 
 
         } catch (error: any) {
             console.error(error);
-            alert(error.message || "Error");
+            onError(error.message || "Error");
         }
     };
 
     return (
         <div className="form-container">
             <h3 className="form-title">{selected ? "Editar" : "Crear"} Categoría</h3>
-
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="form-label">Nombre</label>

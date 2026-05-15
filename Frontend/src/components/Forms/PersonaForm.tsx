@@ -5,7 +5,7 @@ import type { PersonaFormValues, PersonaFormErrors } from "../../utils/FormTypes
 import FormError from "../FormError/FormError";
 import "./style.css";
 
-const PersonaForm = ({ selected, clear, refresh }) => {
+const PersonaForm = ({ selected, clear, refresh, onSuccess, onError, onClear }) => {
 
     const initialForm: PersonaFormValues = {
         nombre: ""
@@ -45,13 +45,15 @@ const PersonaForm = ({ selected, clear, refresh }) => {
 
         setErrors({});
 
+        onClear();
+
         try {
             if (selected) {
                 await api.put(`persona/${selected.id_persona}`, form);
-                alert("Persona actualizada");
+                onSuccess("Persona actualizada");
             } else {
                 await api.post("persona", form);
-                alert("Persona creada");
+                onSuccess("Persona creada");
             }
 
             clear();
@@ -61,7 +63,7 @@ const PersonaForm = ({ selected, clear, refresh }) => {
         } catch (error: any) {
             console.error(error);
             const message = error.message || "Error desconocido";
-            alert(`Error: ${message}`);
+            onError(message);
         }
     };
 

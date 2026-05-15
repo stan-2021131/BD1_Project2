@@ -3,12 +3,15 @@ import { api } from "../../services/Api";
 import PersonaRow from "../../components/Rows/PersonaRow";
 import PersonaForm from "../../components/Forms/PersonaForm";
 import { useUser } from "../../context/UserContext";
+import useAlert from "../../hooks/useAlert";
+import Alert from "../../components/Alert/Alert";
 import "./style.css";
 
 const Personas = () => {
     const [personas, setPersonas] = useState<any[]>([]);
     const [search, setSearch] = useState("");
     const [selected, setSelected] = useState<any>(null);
+    const { success, error, showSuccess, showError, clearAlerts } = useAlert();
 
     const fetchPersonas = async () => {
         const res = await api.get("persona");
@@ -31,6 +34,8 @@ const Personas = () => {
 
             <div className="crud-table">
                 <h2>Personas</h2>
+                {error && <Alert type="error" message={error} />}
+                {success && <Alert type="success" message={success} />}
 
                 <input
                     className="crud-search"
@@ -55,6 +60,9 @@ const Personas = () => {
                                 persona={p}
                                 onSelect={setSelected}
                                 refresh={fetchPersonas}
+                                onSuccess={showSuccess}
+                                onError={showError}
+                                onClear={clearAlerts}
                             />
                         ))}
                     </tbody>
@@ -67,6 +75,9 @@ const Personas = () => {
                         selected={selected}
                         clear={() => setSelected(null)}
                         refresh={fetchPersonas}
+                        onSuccess={showSuccess}
+                        onError={showError}
+                        onClear={clearAlerts}
                     />
                 </div>
             )}
