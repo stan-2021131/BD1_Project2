@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
 import CompraRow from "../../components/Rows/CompraRow";
 import CompraForm from "../../components/Forms/CompraForm";
+import useAlert from "../../hooks/useAlert";
+import Alert from "../../components/Alert/Alert";
 import "./style.css";
 
 const Compras = () => {
     const [compras, setCompras] = useState([]);
     const [filtro, setFiltro] = useState("");
     const [mostrarForm, setMostrarForm] = useState(false);
+
+    const { success, error, showSuccess, showError, clearAlerts } = useAlert();
 
     const fetchCompras = async () => {
         let endpoint = "compra_venta/compra";
@@ -21,13 +25,16 @@ const Compras = () => {
 
     useEffect(() => {
         fetchCompras();
+        clearAlerts();
     }, [filtro]);
 
     return (
         <div>
             <h2>Compras</h2>
-
+            {error && <Alert type="error" message={error} />}
+            {success && <Alert type="success" message={success} />}
             <div className="crud-header">
+
                 <div className="crud-filters">
                     <label>
                         <input type="radio" name="filtroCompras" onChange={() => setFiltro("")} checked={filtro === ""} />
@@ -55,7 +62,7 @@ const Compras = () => {
 
             {mostrarForm &&
                 <div className="crud-form-inline">
-                    <CompraForm close={() => setMostrarForm(false)} refresh={fetchCompras} />
+                    <CompraForm close={() => setMostrarForm(false)} refresh={fetchCompras} onSuccess={showSuccess} onError={showError} />
                 </div>
             }
             {/* TABLA */}
@@ -73,7 +80,7 @@ const Compras = () => {
 
                 <tbody>
                     {compras.map((v) => (
-                        <CompraRow key={v.id_transaccion} compra={v} refresh={fetchCompras} />
+                        <CompraRow key={v.id_transaccion} compra={v} refresh={fetchCompras} onSuccess={showSuccess} onError={showError} onClear={clearAlerts} />
                     ))}
                 </tbody>
             </table>

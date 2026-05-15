@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
 import VentaRow from "../../components/Rows/VentaRow";
 import VentaForm from "../../components/Forms/VentaForm";
+import useAlert from "../../hooks/useAlert";
+import Alert from "../../components/Alert/Alert";
 import "./style.css";
 
 const Ventas = () => {
     const [ventas, setVentas] = useState([]);
     const [filtro, setFiltro] = useState("");
     const [mostrarForm, setMostrarForm] = useState(false);
+    const { success, error, showSuccess, showError, clearAlerts } = useAlert();
 
     const fetchVentas = async () => {
         let endpoint = "compra_venta/venta";
@@ -26,6 +29,8 @@ const Ventas = () => {
     return (
         <div>
             <h2>Ventas</h2>
+            {error && <Alert type="error" message={error} />}
+            {success && <Alert type="success" message={success} />}
 
             {/* FILTROS */}
             <div className="crud-header">
@@ -71,7 +76,7 @@ const Ventas = () => {
 
             {mostrarForm &&
                 <div className="crud-form-inline">
-                    <VentaForm close={() => setMostrarForm(false)} refresh={fetchVentas} />
+                    <VentaForm close={() => setMostrarForm(false)} refresh={fetchVentas} onSuccess={showSuccess} onError={showError} onClear={clearAlerts} />
                 </div>
             }
 
@@ -91,7 +96,7 @@ const Ventas = () => {
 
                 <tbody>
                     {ventas.map((v) => (
-                        <VentaRow key={v.id_transaccion} venta={v} refresh={fetchVentas} />
+                        <VentaRow key={v.id_transaccion} venta={v} refresh={fetchVentas} onSuccess={showSuccess} onError={showError} onClear={clearAlerts} />
                     ))}
                 </tbody>
             </table>

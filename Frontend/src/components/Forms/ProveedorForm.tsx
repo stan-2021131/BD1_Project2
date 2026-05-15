@@ -5,7 +5,7 @@ import { validateProveedorForm } from "../../utils/ValidateForms";
 import FormError from "../FormError/FormError";
 import "./style.css";
 
-const ProveedorForm = ({ selected, clear, refresh }) => {
+const ProveedorForm = ({ selected, clear, refresh, onSuccess, onError, onClear }: any) => {
     const initialForm: ProveedorFormValues = {
         proveedor: "",
         direccion: "",
@@ -37,6 +37,7 @@ const ProveedorForm = ({ selected, clear, refresh }) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        onClear();
 
         const validateErrors = validateProveedorForm(form);
         if (Object.keys(validateErrors).length > 0) {
@@ -49,20 +50,20 @@ const ProveedorForm = ({ selected, clear, refresh }) => {
         if (selected) {
             try {
                 await api.put(`proveedor/${selected.id_proveedor}`, form);
-                alert("Proveedor actualizado");
+                onSuccess("Proveedor actualizado");
             } catch (error: any) {
                 console.error(error);
                 const message = error.message || "Error desconocido";
-                alert(`Error al actualizar proveedor: ${message}`);
+                onError(`Error al actualizar proveedor: ${message}`);
             }
         } else {
             try {
                 await api.post("proveedor", form);
-                alert("Proveedor creado");
+                onSuccess("Proveedor creado");
             } catch (error: any) {
                 console.error(error);
                 const message = error.message || "Error desconocido";
-                alert(`Error al crear proveedor: ${message}`);
+                onError(`Error al crear proveedor: ${message}`);
             }
         }
 

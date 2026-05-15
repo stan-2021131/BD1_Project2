@@ -3,7 +3,7 @@ import { api } from "../../services/Api";
 import CarritoTable from "../Cart/Cart";
 import "./style.css";
 
-const VentaRow = ({ venta, refresh }) => {
+const VentaRow = ({ venta, refresh, onSuccess, onError, onClear }) => {
     const [detalle, setDetalle] = useState(null);
 
     const verDetalle = async () => {
@@ -18,14 +18,15 @@ const VentaRow = ({ venta, refresh }) => {
 
     const anular = async () => {
         if (!confirm("¿Anular venta?")) return;
-
+        onClear();
         try {
             await api.put(`compra_venta/venta/${venta.id_transaccion}`, {});
+            onSuccess("Venta anulada exitosamente");
             refresh();
         } catch (error: any) {
             console.error(error);
-            const message = error.message || "Error desconocido"
-            alert(`Error al anular la venta: ${message}`);
+            const message = error.message || "Error desconocido";
+            onError(`Error al anular la venta: ${message}`);
         }
     };
 

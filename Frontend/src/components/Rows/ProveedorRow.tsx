@@ -3,21 +3,23 @@ import { useUser } from "../../context/UserContext";
 import "./style.css";
 
 
-const ProveedorRow = ({ proveedor, onSelect, refresh }: any) => {
+const ProveedorRow = ({ proveedor, onSelect, refresh, onSuccess, onError, onClear }: any) => {
     const { user } = useUser();
     const isAdmin = Number(user?.id_rol) === 1;
 
     const handleDelete = async () => {
         if (!confirm("¿Eliminar proveedor?")) return;
 
+        onClear();
+
         try {
             await api.delete(`proveedor/${proveedor.id_proveedor}`);
-            alert("Proveedor eliminado");
+            onSuccess("Proveedor eliminado");
             refresh();
         } catch (error: any) {
             console.error(error);
             const message = error.message || "Error desconocido";
-            alert(`Error al eliminar el proveedor: ${message}`);
+            onError(`Error al eliminar el proveedor: ${message}`);
         }
     };
 

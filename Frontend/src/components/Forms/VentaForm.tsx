@@ -8,7 +8,7 @@ import { validateVentaForm } from "../../utils/ValidateForms";
 import FormError from "../FormError/FormError";
 import "./style.css";
 
-const VentaForm = ({ close, refresh }: { close: () => void, refresh: () => void }) => {
+const VentaForm = ({ close, refresh, onSuccess, onError, onClear }: { close: () => void, refresh: () => void, onSuccess: (msg: string) => void, onError: (msg: string) => void, onClear: () => void }) => {
     const { state, dispatch } = useContext(CarritoVentasContext);
     const { user } = useUser();
 
@@ -49,6 +49,7 @@ const VentaForm = ({ close, refresh }: { close: () => void, refresh: () => void 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        onClear();
         const validateErrors = validateVentaForm(form, state);
 
         if (Object.keys(validateErrors).length > 0) {
@@ -69,13 +70,14 @@ const VentaForm = ({ close, refresh }: { close: () => void, refresh: () => void 
                 })),
             });
 
-            alert(`Venta realizada exitosamente`);
+            onSuccess("Venta realizada exitosamente");
             dispatch({ type: "LIMPIAR" });
             refresh();
             close();
         } catch (error) {
             console.error(error);
-            alert(`Error al realizar la venta: ${error.message}`);
+            const message = error.message || "Error desconocido";
+            onError(`Error al realizar la venta: ${message}`);
         }
     };
 

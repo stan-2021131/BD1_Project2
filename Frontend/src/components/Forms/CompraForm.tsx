@@ -8,7 +8,7 @@ import FormError from "../FormError/FormError";
 import type { CompraFormValues, CompraFormErrors } from "../../utils/FormTypes";
 import "./style.css";
 
-const CompraForm = ({ close, refresh }) => {
+const CompraForm = ({ close, refresh, onSuccess, onError }) => {
     const { state, dispatch } = useContext(CarritoComprasContext);
     const { user } = useUser();
 
@@ -50,6 +50,7 @@ const CompraForm = ({ close, refresh }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const validateErrors = validateCompraForm(form, state);
 
         if (Object.keys(validateErrors).length > 0) {
@@ -70,13 +71,15 @@ const CompraForm = ({ close, refresh }) => {
                 })),
             });
 
-            alert(`Compra realizada exitosamente`);
+            onSuccess(`Compra realizada exitosamente`);
             dispatch({ type: "LIMPIAR" });
             refresh();
-            close();
+            setTimeout(() => {
+                close();
+            }, 1500);
         } catch (error) {
             console.error(error);
-            alert(`Error al realizar la compra: ${error.message}`);
+            onError(`Error al realizar la compra: ${error.message}`);
         }
     };
 
