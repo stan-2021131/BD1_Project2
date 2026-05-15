@@ -4,7 +4,7 @@ import { useUser } from "../../context/UserContext";
 import { CarritoComprasContext, CarritoVentasContext } from "../../context/CarritoContext";
 import "./style.css";
 
-const ProductoRow = ({ producto, onSelect, refresh }: any) => {
+const ProductoRow = ({ producto, onSelect, refresh, onSuccess, onError, onClear }: any) => {
     const [cantidad, setCantidad] = useState(1);
 
     const { user } = useUser();
@@ -16,26 +16,29 @@ const ProductoRow = ({ producto, onSelect, refresh }: any) => {
 
     const handleDelete = async () => {
         if (!confirm("¿Eliminar producto?")) return;
+        onClear();
 
         try {
             await api.delete(`producto/${producto.id_producto}`);
-            alert("Producto eliminado");
+            onSuccess("Producto eliminado");
             refresh();
         } catch (error: any) {
             console.error(error);
             const message = error.message || "Error desconocido"
-            alert(`Error al eliminar el producto: ${message}`);
+            onError(`Error al eliminar el producto: ${message}`);
         }
     };
 
     const handleAddVenta = () => {
         if (cantidad <= 0) {
-            alert("La cantidad debe ser mayor a 0");
+            onClear();
+            onError("La cantidad debe ser mayor a 0");
             return;
         }
 
         if (cantidad > producto.stock) {
-            alert("No hay suficiente stock");
+            onClear();
+            onError("No hay suficiente stock");
             return;
         }
         dispatchVentas({
@@ -48,17 +51,19 @@ const ProductoRow = ({ producto, onSelect, refresh }: any) => {
             }
         });
 
-        alert("Producto agregado a la venta");
+        onSuccess("Producto agregado a la venta");
         setCantidad(1);
     };
 
     const handleAddCompra = () => {
         if (cantidad <= 0) {
-            alert("La cantidad debe ser mayor a 0");
+            onClear();
+            onError("La cantidad debe ser mayor a 0");
             return;
         }
         if (cantidad > producto.stock) {
-            alert("No hay suficiente stock");
+            onClear();
+            onError("No hay suficiente stock");
             return;
         }
         dispatchCompras({
@@ -71,7 +76,7 @@ const ProductoRow = ({ producto, onSelect, refresh }: any) => {
             }
         });
 
-        alert("Producto agregado a la compra");
+        onSuccess("Producto agregado a la compra");
         setCantidad(1);
     };
 

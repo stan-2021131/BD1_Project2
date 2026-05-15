@@ -5,7 +5,7 @@ import type { ProductoFormValues, ProductoFormErrors } from "../../utils/FormTyp
 import { validateProductoForm } from "../../utils/ValidateForms";
 import "./style.css";
 
-const ProductoForm = ({ selected, clear, refresh }) => {
+const ProductoForm = ({ selected, clear, refresh, onSuccess, onError, onClear }: any) => {
     const initialForm: ProductoFormValues = {
         producto: "",
         descripcion: "",
@@ -63,24 +63,25 @@ const ProductoForm = ({ selected, clear, refresh }) => {
         }
 
         setErrors({});
+        onClear();
 
         if (selected) {
             try {
                 await api.put(`producto/${selected.id_producto}`, form);
-                alert("Producto actualizado");
+                onSuccess("Producto actualizado");
             } catch (error: any) {
                 console.error(error);
                 const message = error.message || "Error desconocido"
-                alert(`Error al actualizar el producto: ${message}`);
+                onError(`Error al actualizar el producto: ${message}`);
             }
         } else {
             try {
                 await api.post("producto", form);
-                alert("Producto creado");
+                onSuccess("Producto creado");
             } catch (error: any) {
                 console.error(error);
                 const message = error.message || "Error desconocido"
-                alert(`Error al crear el producto: ${message}`);
+                onError(`Error al crear el producto: ${message}`);
             }
         }
         clear();

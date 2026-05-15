@@ -3,9 +3,13 @@ import { api } from "../../services/Api";
 import EmpleadoRow from "../../components/Rows/EmpleadoRow";
 import EmpleadoForm from "../../components/Forms/EmpleadoForm";
 import { useUser } from "../../context/UserContext";
+import useAlert from "../../hooks/useAlert";
+import Alert from "../../components/Alert/Alert";
 import "./style.css";
 
 const Empleados = () => {
+    const { success, error, showSuccess, showError, clearAlerts } = useAlert();
+
     const [empleados, setEmpleados] = useState<any[]>([]);
     const [search, setSearch] = useState('');
     const [selected, setSelected] = useState<any>(null);
@@ -30,7 +34,8 @@ const Empleados = () => {
         <div className="crud-container">
             <div className="crud-table">
                 <h2>Empleados</h2>
-
+                {error && <Alert type="error" message={error} />}
+                {success && <Alert type="success" message={success} />}
                 <input
                     className="crud-search"
                     type="text"
@@ -56,6 +61,9 @@ const Empleados = () => {
                                 empleado={e}
                                 onSelect={setSelected}
                                 refresh={fetchEmpleados}
+                                onSuccess={showSuccess}
+                                onError={showError}
+                                onClear={clearAlerts}
                             />
                         ))}
                     </tbody>
@@ -68,6 +76,9 @@ const Empleados = () => {
                         selected={selected}
                         clear={() => setSelected(null)}
                         refresh={fetchEmpleados}
+                        onSuccess={showSuccess}
+                        onError={showError}
+                        onClear={clearAlerts}
                     />
                 </div>
             )}

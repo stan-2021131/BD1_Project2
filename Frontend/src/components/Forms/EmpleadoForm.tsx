@@ -5,7 +5,7 @@ import type { EmpleadoFormValues, EmpleadoFormErrors } from "../../utils/FormTyp
 import FormError from "../FormError/FormError";
 import "./style.css";
 
-const EmpleadoForm = ({ selected, clear, refresh }) => {
+const EmpleadoForm = ({ selected, clear, refresh, onSuccess, onError, onClear }) => {
     const initialForm: EmpleadoFormValues = {
         usuario: "",
         contrasena: "",
@@ -65,6 +65,7 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        onClear();
 
         const validateErrors = validateEmpleadoForm(form, selected);
 
@@ -78,10 +79,10 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
         try {
             if (selected) {
                 await api.put(`empleado/${selected.id_empleado}`, form);
-                alert("Empleado actualizado");
+                onSuccess("Empleado actualizado");
             } else {
                 await api.post("empleado", form);
-                alert("Empleado creado");
+                onSuccess("Empleado creado");
             }
 
             clear();
@@ -91,7 +92,7 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
         } catch (error: any) {
             console.error(error);
             const message = error.message || "Error desconocido";
-            alert(`Error: ${message}`);
+            onError(message);
         }
     };
 
@@ -99,7 +100,6 @@ const EmpleadoForm = ({ selected, clear, refresh }) => {
     return (
         <div className="form-container">
             <h3 className="form-title">{selected ? "Editar" : "Crear"} Empleado</h3>
-
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="form-label">Usuario</label>

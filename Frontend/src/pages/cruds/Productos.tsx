@@ -3,12 +3,15 @@ import { api } from "../../services/Api";
 import ProductoRow from "../../components/Rows/ProductoRow";
 import ProductoForm from "../../components/Forms/ProductoForm";
 import { useUser } from "../../context/UserContext";
+import useAlert from "../../hooks/useAlert";
+import Alert from "../../components/Alert/Alert";
 import "./style.css";
 
 const Productos = () => {
     const [productos, setProductos] = useState<any[]>([]);
     const [search, setSearch] = useState('');
     const [selected, setSelected] = useState<any>(null);
+    const { success, error, showSuccess, showError, clearAlerts } = useAlert();
 
     const fetchProductos = async () => {
         const res = await api.get("producto");
@@ -31,6 +34,8 @@ const Productos = () => {
 
             <div className="crud-table">
                 <h2>Productos</h2>
+                {error && <Alert type="error" message={error} />}
+                {success && <Alert type="success" message={success} />}
 
                 <input
                     className="crud-search"
@@ -59,6 +64,9 @@ const Productos = () => {
                                 producto={p}
                                 onSelect={setSelected}
                                 refresh={fetchProductos}
+                                onSuccess={showSuccess}
+                                onError={showError}
+                                onClear={clearAlerts}
                             />
                         ))}
                     </tbody>
@@ -72,6 +80,9 @@ const Productos = () => {
                         selected={selected}
                         clear={() => setSelected(null)}
                         refresh={fetchProductos}
+                        onSuccess={showSuccess}
+                        onError={showError}
+                        onClear={clearAlerts}
                     />
                 </div>
             )}
