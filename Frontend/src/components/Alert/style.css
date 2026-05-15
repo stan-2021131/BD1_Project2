@@ -16,15 +16,15 @@
 }
 
 .alert.success {
-    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-    color: #065f46;
-    border: 1px solid #10b981;
+    background: linear-gradient(135deg, var(--color-success-light), var(--color-success-dark));
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
 }
 
 .alert.error {
-    background: linear-gradient(135deg, #fee2e2, #fecaca);
-    color: #991b1b;
-    border: 1px solid #ef4444;
+    background: linear-gradient(135deg, var(--color-danger-light), var(--color-danger-dark));
+    color: var(--color-danger);
+    border: 1px solid var(--color-danger);
 }
 
 .icon {

@@ -12,7 +12,12 @@
   --color-border: #1e293b;
 
   --color-success: #1e5128;
+  --color-success-light: #d1fae5;
+  --color-success-dark: #a7f3d0;
+
   --color-danger: #a41515;
+  --color-danger-light: #fee2e2;
+  --color-danger-dark: #fecaca;
 
   --radius: 8px;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
