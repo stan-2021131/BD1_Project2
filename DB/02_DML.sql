@@ -103,19 +103,48 @@ INSERT INTO Producto (producto, descripcion, stock, precio_compra, precio_venta,
 ('Producto Eliminado','Producto eliminado',0,0.00,0.00,25);
 
 INSERT INTO Transaccion (fecha, id_encargado, id_forma_pago, estado) VALUES
-('2026-03-01',1,1, 'ACTIVO'),('2026-03-01',2,2, 'ACTIVO'),('2026-03-02',3,1, 'ACTIVO'),
-('2026-03-02',4,2, 'ACTIVO'),('2026-03-03',5,1, 'ACTIVO'),('2026-03-03',1,2, 'ACTIVO'),
-('2026-03-04',2,1, 'ACTIVO'),('2026-03-04',3,2, 'ACTIVO'),('2026-03-05',4,1, 'ACTIVO'),
-('2026-03-05',5,2, 'ACTIVO'),('2026-03-06',1,1, 'ACTIVO'),('2026-03-06',2,2, 'ACTIVO'),
-('2026-03-07',3,1, 'ACTIVO'),('2026-03-07',4,2, 'ACTIVO'),('2026-03-08',5,1, 'ACTIVO'),
-('2026-03-08',1,2, 'ACTIVO'),('2026-03-09',2,1, 'ACTIVO'),('2026-03-09',3,2, 'ACTIVO'),
-('2026-03-10',4,1, 'ACTIVO'),('2026-03-10',5,2, 'ACTIVO'),
 
--- Compras
-('2026-03-11',1,1, 'ACTIVO'),('2026-03-11',2,1, 'ACTIVO'),('2026-03-12',3,1, 'ACTIVO'),
-('2026-03-12',4,1, 'ACTIVO'),('2026-03-13',5,1, 'ACTIVO'),('2026-03-13',1,1, 'ACTIVO'),
-('2026-03-14',2,1, 'ACTIVO'),('2026-03-14',3,1, 'ACTIVO'),('2026-03-15',4,1, 'ACTIVO'),
-('2026-03-15',5,1, 'ACTIVO');
+-- Enero
+('2026-01-03',1,1,'ACTIVO'),
+('2026-01-05',2,2,'ACTIVO'),
+('2026-01-08',3,1,'ACTIVO'),
+('2026-01-12',4,2,'ACTIVO'),
+('2026-01-18',5,1,'ACTIVO'),
+
+-- Febrero
+('2026-02-02',1,2,'ACTIVO'),
+('2026-02-06',2,1,'ACTIVO'),
+('2026-02-10',3,2,'ACTIVO'),
+('2026-02-15',4,1,'ACTIVO'),
+('2026-02-22',5,2,'ACTIVO'),
+
+-- Marzo
+('2026-03-01',1,1,'ACTIVO'),
+('2026-03-05',2,2,'ACTIVO'),
+('2026-03-09',3,1,'ACTIVO'),
+('2026-03-13',4,2,'ACTIVO'),
+('2026-03-20',5,1,'ACTIVO'),
+
+-- Abril
+('2026-04-04',1,2,'ACTIVO'),
+('2026-04-08',2,1,'ACTIVO'),
+('2026-04-14',3,2,'ACTIVO'),
+('2026-04-18',4,1,'ACTIVO'),
+('2026-04-25',5,2,'ACTIVO'),
+
+-- Compras Mayo
+('2026-05-02',1,1,'ACTIVO'),
+('2026-05-06',2,1,'ACTIVO'),
+('2026-05-11',3,1,'ACTIVO'),
+('2026-05-15',4,1,'ACTIVO'),
+('2026-05-21',5,1,'ACTIVO'),
+
+-- Compras Junio
+('2026-06-03',1,1,'ACTIVO'),
+('2026-06-09',2,1,'ACTIVO'),
+('2026-06-14',3,1,'ACTIVO'),
+('2026-06-19',4,1,'ACTIVO'),
+('2026-06-27',5,1,'ACTIVO');
 
 INSERT INTO Detalle_Transaccion (id_transaccion, id_producto, cantidad, precio_unitario) VALUES
 -- Venta 1

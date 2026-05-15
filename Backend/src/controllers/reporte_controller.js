@@ -68,11 +68,20 @@ export const ventasTotales = async (req, res) => {
         //Obtiene las ventas totales utilizando CTE con with
         const result = await pool.query(`
             WITH ventas_totales AS (
-                SELECT id_transaccion, SUM(cantidad * precio_unitario) AS total
-                FROM detalle_transaccion
-                GROUP BY id_transaccion
+                SELECT 
+                    DATE_TRUNC('month', t.fecha) AS mes,
+                    SUM(dt.cantidad * dt.precio_unitario) AS total
+                FROM detalle_transaccion dt
+                JOIN transaccion t
+                    ON dt.id_transaccion = t.id_transaccion
+                JOIN venta v
+                    ON t.id_transaccion = v.id_transaccion
+                GROUP BY mes
             )
-            SELECT * FROM ventas_totales
+
+            SELECT *
+            FROM ventas_totales
+            ORDER BY mes;
         `);
         if (result.rows.length === 0) {
             return res.status(404).json({ message: 'No se encontraron ventas' });
