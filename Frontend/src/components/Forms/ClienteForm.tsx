@@ -5,11 +5,12 @@ import type { ClienteFormValues, ClienteFormErrors } from "../../utils/FormTypes
 import { validateClienteForm } from "../../utils/ValidateForms";
 import "./style.css";
 
-const ClienteForm = ({ selected, clear, refresh }: { selected: any, clear: () => void, refresh: () => void }) => {
+const ClienteForm = ({ selected, clear, refresh, onSuccess, onError, onClear }: { selected: any, clear: () => void, refresh: () => void, onSuccess: (msg: string) => void, onError: (msg: string) => void, onClear: () => void }) => {
     const initialForm: ClienteFormValues = {
         nit: "",
         id_persona: 0
     };
+
     const [form, setForm] = useState(initialForm);
 
     const [errors, setErrors] = useState<ClienteFormErrors>({});
@@ -51,6 +52,7 @@ const ClienteForm = ({ selected, clear, refresh }: { selected: any, clear: () =>
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        onClear();
 
         const validateErrors = validateClienteForm(form);
 
@@ -64,20 +66,20 @@ const ClienteForm = ({ selected, clear, refresh }: { selected: any, clear: () =>
         if (selected) {
             try {
                 await api.put(`cliente/${selected.id_cliente}`, form);
-                alert("Cliente actualizado");
+                onSuccess("Cliente actualizado");
             } catch (error: any) {
                 console.error(error);
                 const message = error.message || "Error desconocido"
-                alert(`Error al actualizar el cliente: ${message}`);
+                onError(`Error al actualizar el cliente: ${message}`);
             }
         } else {
             try {
                 await api.post("cliente", form);
-                alert("Cliente creado");
+                onSuccess("Cliente creado");
             } catch (error: any) {
                 console.error(error);
                 const message = error.message || "Error desconocido"
-                alert(`Error al crear el cliente: ${message}`);
+                onError(`Error al crear el cliente: ${message}`);
             }
         }
 

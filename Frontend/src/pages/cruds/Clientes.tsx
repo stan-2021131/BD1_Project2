@@ -3,11 +3,14 @@ import { api } from "../../services/Api";
 import ClienteRow from "../../components/Rows/ClienteRow";
 import ClienteForm from "../../components/Forms/ClienteForm";
 import { useUser } from "../../context/UserContext";
+import useAlert from "../../hooks/useAlert";
+import Alert from "../../components/Alert/Alert";
 import "./style.css";
 
 const Clientes = () => {
     const [clientes, setClientes] = useState<any[]>([]);
     const [search, setSearch] = useState('');
+    const { success, error, showSuccess, showError, clearAlerts } = useAlert();
     const [selected, setSelected] = useState<any>(null);
 
     const fetchClientes = async () => {
@@ -28,8 +31,9 @@ const Clientes = () => {
 
     return (
         <div className="crud-container">
-
             <div className="crud-table">
+                {error && <Alert type="error" message={error} />}
+                {success && <Alert type="success" message={success} />}
                 <h2>Clientes</h2>
 
                 <input
@@ -56,6 +60,9 @@ const Clientes = () => {
                                 cliente={p}
                                 onSelect={setSelected}
                                 refresh={fetchClientes}
+                                onSuccess={showSuccess}
+                                onError={showError}
+                                onClear={clearAlerts}
                             />
                         ))}
                     </tbody>
@@ -69,6 +76,9 @@ const Clientes = () => {
                         selected={selected}
                         clear={() => setSelected(null)}
                         refresh={fetchClientes}
+                        onSuccess={showSuccess}
+                        onError={showError}
+                        onClear={clearAlerts}
                     />
                 </div>
             )}
