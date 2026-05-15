@@ -52,6 +52,18 @@ export const updateEmpleado = async (req, res) => {
             return res.status(400).json({ message: 'Debe ingresar un usuario, id_persona y id_rol' });
         }
 
+        const empleadoEliminado = await pool.query(`
+            SELECT id_empleado FROM empleado
+            WHERE id_persona = (
+                SELECT id_persona FROM persona WHERE nombre = 'Empleado Eliminado'
+            )
+        `);
+
+        //Verifica que el empleado no sea el empleado eliminado
+        if (empleadoEliminado.rows[0].id_empleado === id) { //Verifica que el empleado no sea el empleado eliminado
+            return res.status(400).json({ message: 'No se puede eliminar el empleado eliminado' });
+        }
+
         let result;
         if (contrasena) {
             const salt = bcrypt.genSaltSync(10); //Genera un salt para encriptar la contraseña
