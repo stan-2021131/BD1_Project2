@@ -6,7 +6,7 @@ const createCarrito = () => {
 
     const reducer = (state: any[], action: any) => {
         switch (action.type) {
-            case "AGREGAR":
+            case "AGREGAR":{
                 const existing = state.find(i => i.id_producto === action.payload.id_producto);
                 if (existing) {
                     const nuevaCantidad = existing.cantidad + action.payload.cantidad;
@@ -20,12 +20,13 @@ const createCarrito = () => {
                     );
                 }
                 return [...state, action.payload];
-
-            case "ELIMINAR":
+            }
+            case "ELIMINAR": {
                 return state.filter(i => i.id_producto !== action.payload);
-
-            case "LIMPIAR":
+            }
+            case "LIMPIAR": {
                 return [];
+            }
 
             default:
                 return state;

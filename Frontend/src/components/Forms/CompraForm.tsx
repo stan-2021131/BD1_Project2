@@ -1,8 +1,9 @@
+import type React from "react";
 import { useEffect, useState, useContext } from "react";
 import { api } from "../../services/Api";
 import { CarritoComprasContext } from "../../context/CarritoContext";
 import CarritoTable from "../Cart/Cart";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UseUser";
 import { validateCompraForm } from "../../utils/ValidateForms";
 import FormError from "../FormError/FormError";
 import type { CompraFormValues, CompraFormErrors } from "../../utils/FormTypes";

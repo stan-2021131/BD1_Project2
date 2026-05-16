@@ -1,3 +1,4 @@
+import type React from "react";
 import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
 import type { ProveedorFormValues, ProveedorFormErrors } from "../../utils/FormTypes";

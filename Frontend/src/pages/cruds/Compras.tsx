@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { api } from "../../services/Api";
 import CompraRow from "../../components/Rows/CompraRow";
 import CompraForm from "../../components/Forms/CompraForm";
@@ -13,7 +13,7 @@ const Compras = () => {
 
     const { success, error, showSuccess, showError, clearAlerts } = useAlert();
 
-    const fetchCompras = async () => {
+    const fetchCompras = useCallback(async () => {
         let endpoint = "compra_venta/compra";
 
         if (filtro === "ACTIVO") endpoint += "?activo=true";
@@ -21,12 +21,12 @@ const Compras = () => {
 
         const res = await api.get(endpoint);
         setCompras(res.data);
-    };
+    }, [filtro]);
 
     useEffect(() => {
         fetchCompras();
         clearAlerts();
-    }, [filtro]);
+    }, [fetchCompras, clearAlerts]);
 
     return (
         <div>

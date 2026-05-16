@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { api } from "../../services/Api";
 import VentaRow from "../../components/Rows/VentaRow";
 import VentaForm from "../../components/Forms/VentaForm";
@@ -12,7 +12,7 @@ const Ventas = () => {
     const [mostrarForm, setMostrarForm] = useState(false);
     const { success, error, showSuccess, showError, clearAlerts } = useAlert();
 
-    const fetchVentas = async () => {
+    const fetchVentas = useCallback(async () => {
         let endpoint = "compra_venta/venta";
 
         if (filtro === "ACTIVO") endpoint += "?activo=true";
@@ -20,11 +20,11 @@ const Ventas = () => {
 
         const res = await api.get(endpoint);
         setVentas(res.data);
-    };
+    }, [filtro]);
 
     useEffect(() => {
         fetchVentas();
-    }, [filtro]);
+    }, [fetchVentas]);
 
     return (
         <div>
