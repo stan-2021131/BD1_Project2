@@ -25,7 +25,6 @@ const Compras = () => {
 
     useEffect(() => {
         fetchCompras();
-        clearAlerts();
     }, [fetchCompras]);
 
     return (
