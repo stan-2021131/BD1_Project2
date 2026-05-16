@@ -81,6 +81,7 @@ const Ventas = () => {
             }
 
             {/* TABLA */}
+            <div className="crud-table">
             <table border={1}>
                 <thead>
                     <tr>
@@ -100,7 +101,7 @@ const Ventas = () => {
                     ))}
                 </tbody>
             </table>
-
+            </div>
         </div>
     );
 };

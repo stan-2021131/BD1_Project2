@@ -1,86 +1,251 @@
 /* ============================= */
 /*  CONTENEDOR GENERAL */
 /* ============================= */
+
 .crud-container {
+
     display: flex;
+
     gap: 20px;
+
     align-items: flex-start;
+
+    width: 100%;
 }
 
-/* TABLA ocupa 75% */
+/* ============================= */
+/* TABLA */
+/* ============================= */
+
 .crud-table {
+
     flex: 3;
+
     min-width: 0;
+
+    width: 100%;
+
     overflow-x: auto;
+
+    overflow-y: hidden;
+
+    border-radius: var(--radius);
 }
 
-/* FORM ocupa 25% */
+/* FORM */
+
 .crud-form {
+
     flex: 1;
+
     min-width: 280px;
 }
 
+/* TABLA */
+
 .crud-table table {
+
     width: 100%;
+
     min-width: 700px;
 }
 
 /* ============================= */
 /*  BUSCADOR */
 /* ============================= */
+
 .crud-search {
+
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+
+    padding: 10px;
+
+    margin-bottom: 14px;
 }
 
 /* ============================= */
 /*  HEADER CRUD */
 /* ============================= */
+
 .crud-header {
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
-    margin-bottom: 10px;
+    gap: 16px;
+
+    margin-bottom: 16px;
+
+    flex-wrap: wrap;
 }
 
 /* ============================= */
 /*  FILTROS */
 /* ============================= */
+
+/* ============================= */
+/* FILTROS */
+/* ============================= */
+
 .crud-filters {
+
     display: flex;
+
     gap: 10px;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+}
+
+.crud-filters label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        8px 12px;
+
+    background-color:
+        var(--color-surface);
+
+    border:
+        1px solid var(--color-border);
+
+    border-radius:
+        var(--radius);
+
+    cursor: pointer;
+
+    transition:
+        var(--transition);
+
+    font-size: 0.9rem;
+
+    color:
+        var(--color-text-muted);
+}
+
+.crud-filters label:hover {
+
+    border-color:
+        var(--color-primary);
+
+    color:
+        var(--color-text);
+}
+
+/* RADIO */
+
+.crud-filters input[type="radio"] {
+
+    accent-color:
+        var(--color-primary);
+
+    cursor: pointer;
+
+    width: 16px;
+
+    height: 16px;
 }
 
 /* ============================= */
 /*  BOTÓN PRINCIPAL */
 /* ============================= */
+
 .crud-action-btn {
-    background-color: var(--color-primary);
-    padding: 6px 12px;
-    border-radius: var(--radius);
+
+    background-color:
+        var(--color-primary);
+
+    padding: 10px 14px;
+
+    border-radius:
+        var(--radius);
+
     cursor: pointer;
+
     color: white;
+
+    border: none;
 }
 
 /* ============================= */
-/*  FORM EN CRUD (COMPRA/VENTA) */
+/*  FORM EN CRUD */
 /* ============================= */
+
 .crud-form-inline {
-    margin: 15px 0;
+
+    margin: 16px 0;
 }
 
 /* ============================= */
-/*  RESPONSIVE (ESCRITORIO) */
+/*  RESPONSIVE */
 /* ============================= */
+
 @media (max-width: 800px) {
+
     .crud-container {
+
         flex-direction: column;
     }
 
     .crud-table,
     .crud-form {
-        flex: 1 1 100%;
+
+        width: 100%;
+    }
+
+    .crud-form {
+
+        min-width: 100%;
+    }
+
+    .crud-header {
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+    
+    .crud-filters {
+
+        width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .crud-filters label {
+
+        width: 100%;
+    }
+
+    .crud-action-btn {
+
+        width: 100%;
+    }
+
+    /* TABLAS */
+
+    .crud-table {
+
+        width: 100%;
+
+        overflow-x: auto;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .crud-table table {
+
+        min-width: 700px;
     }
 }
