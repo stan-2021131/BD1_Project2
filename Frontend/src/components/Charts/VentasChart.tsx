@@ -32,7 +32,7 @@ const VentasChart = ({ data }) => {
 
                     <Tooltip />
 
-                    <Legend />
+                    <Legend wrapperStyle={{fontSize: "12px"}} />
 
                     <Line
                         type="monotone"

@@ -33,7 +33,7 @@ const TopProductosChart = ({ data }) => {
                         data={chartData}
                         dataKey="total_vendido"
                         nameKey="producto"
-                        outerRadius={140}
+                        outerRadius={"70%"}
                         label
                         isAnimationActive={true}
                     />
