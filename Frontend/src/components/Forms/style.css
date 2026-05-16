@@ -1,137 +1,290 @@
 /* ============================= */
 /* 🔹 CONTENEDOR FORM */
 /* ============================= */
+
 .form-container {
-    background: var(--color-surface);
-    padding: 20px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+
+    background:
+        var(--color-surface);
+
+    padding: 24px;
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
 
     display: flex;
+
     flex-direction: column;
-    gap: 16px;
+
+    gap: 20px;
+
+    width: 100%;
 }
 
 /* ============================= */
 /* 🔹 TITULO */
 /* ============================= */
+
 .form-title {
-    font-size: 18px;
-    font-weight: 600;
+
+    font-size: 1.2rem;
+
+    font-weight: 700;
+
+    color:
+        var(--color-text);
+
+    margin: 0;
 }
 
 /* ============================= */
-/* 🔹 GRUPO DE INPUT */
+/* 🔹 GRUPO INPUT */
 /* ============================= */
+
 .form-group {
+
     display: flex;
+
     flex-direction: column;
-    gap: 4px;
+
+    gap: 6px;
+
+    width: 100%;
 }
 
 /* ============================= */
 /* 🔹 LABEL */
 /* ============================= */
+
 .form-label {
-    font-size: 13px;
-    color: var(--color-text-muted);
+
+    font-size: 0.9rem;
+
+    color:
+        var(--color-text-muted);
+
+    font-weight: 500;
 }
 
 /* ============================= */
-/* 🔹 INPUT / SELECT */
+/* 🔹 INPUTS */
 /* ============================= */
+
 .form-input,
 .form-select {
-    padding: 8px 10px;
-    border-radius: var(--radius);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg);
-    color: var(--color-text);
 
-    transition: var(--transition);
+    width: 100%;
+
+    padding:
+        12px 14px;
+
+    border-radius:
+        var(--radius);
+
+    border:
+        1px solid var(--color-border);
+
+    background:
+        var(--color-bg);
+
+    color:
+        var(--color-text);
+
+    transition:
+        var(--transition);
+
+    font-size: 0.95rem;
 }
 
 .form-input:focus,
 .form-select:focus {
-    border-color: var(--color-primary);
+
+    border-color:
+        var(--color-primary);
+}
+
+/* ERROR */
+
+.form-input-error {
+
+    border-color:
+        var(--color-danger);
 }
 
 /* ============================= */
 /* 🔹 BOTONES */
 /* ============================= */
+
 .form-actions {
+
     display: flex;
-    gap: 10px;
+
+    gap: 12px;
+
     justify-content: flex-end;
+
+    flex-wrap: wrap;
 }
 
 .form-btn {
-    padding: 8px 14px;
-    border-radius: var(--radius);
+
+    padding:
+        10px 16px;
+
+    border-radius:
+        var(--radius);
+
     border: none;
+
     cursor: pointer;
-    background: var(--color-primary);
+
+    background:
+        var(--color-primary);
+
     color: white;
-    transition: var(--transition);
+
+    font-weight: 600;
+
+    transition:
+        var(--transition);
+
+    min-width: 120px;
 }
 
 .form-btn:hover {
-    background: var(--color-primary-hover);
+
+    background:
+        var(--color-primary-hover);
 }
 
 .form-btn.cancel {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+
+    background:
+        transparent;
+
+    border:
+        1px solid var(--color-border);
+
+    color:
+        var(--color-text);
 }
 
 .form-btn.cancel:hover {
-    background: rgba(255, 255, 255, 0.05);
+
+    background:
+        rgba(255,255,255,0.04);
 }
 
 /* ============================= */
-/* 🔹 BLOQUE CARRITO */
+/* 🔹 CARRITO */
 /* ============================= */
+
 .form-cart {
-    margin-top: 10px;
-    border-top: 1px solid var(--color-border);
-    padding-top: 10px;
-}
 
+    margin-top: 12px;
+
+    border-top:
+        1px solid var(--color-border);
+
+    padding-top: 12px;
+}
 
 /* ============================= */
 /* 🔹 FORM DIVIDIDO */
 /* ============================= */
+
 .form-split {
+
     display: flex;
-    gap: 20px;
+
+    gap: 24px;
+
     align-items: flex-start;
+
+    width: 100%;
 }
 
-/* IZQUIERDA (inputs) */
+/* IZQUIERDA */
+
 .form-left {
+
     flex: 1;
+
     display: flex;
+
     flex-direction: column;
-    gap: 12px;
+
+    gap: 14px;
+
+    min-width: 0;
 }
 
-/* DERECHA (carrito) */
+/* DERECHA */
+
 .form-right {
+
     flex: 1.5;
-    /* 🔥 carrito más ancho */
-    min-width: 300px;
+
+    min-width: 320px;
+
+    width: 100%;
 }
 
 /* ============================= */
 /* 🔹 RESPONSIVE */
 /* ============================= */
+
 @media (max-width: 900px) {
+
+    .form-container {
+
+        padding: 18px;
+    }
+
     .form-split {
+
         flex-direction: column;
     }
 
+    .form-left,
     .form-right {
+
         width: 100%;
+
+        min-width: 100%;
+    }
+
+    .form-actions {
+
+        flex-direction: column;
+    }
+
+    .form-btn {
+
+        width: 100%;
+    }
+}
+
+/* MOBILE PEQUEÑO */
+
+@media (max-width: 600px) {
+
+    .form-container {
+
+        padding: 14px;
+    }
+
+    .form-input,
+    .form-select {
+
+        font-size: 16px;
+    }
+
+    .form-title {
+
+        font-size: 1.05rem;
     }
 }
