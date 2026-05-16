@@ -1,78 +1,182 @@
 .row {
-    transition: var(--transition);
+
+    transition:
+        var(--transition);
 }
 
 .row:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+
+    background-color:
+        rgba(255,255,255,0.03);
 }
+
+/* ============================= */
+/* CELDAS */
+/* ============================= */
 
 .row td {
-    padding: 10px;
+
+    padding: 12px;
+
     vertical-align: middle;
+
+    min-width: 120px;
 }
+
+/* ============================= */
+/* ACTIONS */
+/* ============================= */
 
 .row-actions {
+
     display: flex;
+
     gap: 8px;
+
+    flex-wrap: wrap;
+
+    align-items: center;
 }
 
+/* ============================= */
+/* BUTTONS */
+/* ============================= */
 
 .row-btn {
-    padding: 5px 10px;
-    border-radius: var(--radius);
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
 
-    transition: var(--transition);
+    padding:
+        8px 12px;
+
+    border-radius:
+        var(--radius);
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 0.8rem;
+
+    font-weight: 600;
+
+    transition:
+        var(--transition);
+
+    white-space: nowrap;
+
+    min-height: 36px;
 }
+
+.row-btn:hover {
+
+    opacity: 0.9;
+}
+
+/* ============================= */
+/* VARIANTES */
+/* ============================= */
 
 /* EDITAR */
-.row-btn.edit {
-    background-color: var(--color-primary);
-    color: white;
-}
 
-.row-btn.edit:hover {
-    opacity: 0.85;
+.row-btn.edit {
+
+    background-color:
+        var(--color-primary);
+
+    color: white;
 }
 
 /* ELIMINAR */
-.row-btn.delete {
-    background-color: var(--color-danger);
-    color: white;
-}
 
-.row-btn.delete:hover {
-    opacity: 0.85;
+.row-btn.delete {
+
+    background-color:
+        var(--color-danger);
+
+    color: white;
 }
 
 /* VER */
+
 .row-btn.view {
-    background-color: #1e5128;
+
+    background-color:
+        var(--color-success);
+
     color: white;
 }
 
-.row-btn.view:hover {
-    opacity: 0.85;
-}
+/* AGREGAR VENTA */
 
-/* AGREGAR A VENTA */
 .row-btn.addV {
-    background-color: #207311;
+
+    background-color:
+        #207311;
+
     color: white;
 }
 
-.row-btn.addV:hover {
-    opacity: 0.85;
-}
+/* AGREGAR COMPRA */
 
-/* AGREGAR A COMPRA */
 .row-btn.addC {
-    background-color: #ac6816;
+
+    background-color:
+        #ac6816;
+
     color: white;
 }
 
-.row-btn.addC:hover {
-    opacity: 0.85;
+/* ============================= */
+/* INPUTS DENTRO TABLAS */
+/* ============================= */
+
+.row input,
+.row select {
+
+    width: 100%;
+
+    min-width: 90px;
+
+    padding: 8px 10px;
+
+    font-size: 0.9rem;
+}
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+    .row td {
+
+        padding: 10px;
+
+        min-width: 140px;
+    }
+
+    .row-actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        width: 100%;
+    }
+
+    .row-btn {
+
+        width: 100%;
+
+        text-align: center;
+
+        font-size: 0.85rem;
+    }
+
+    .row input,
+    .row select {
+
+        min-width: 120px;
+
+        font-size: 16px;
+    }
 }
