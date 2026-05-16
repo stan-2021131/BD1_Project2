@@ -1,6 +1,6 @@
 import { api } from "../../services/Api";
 import { useContext, useState } from "react";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UseUser";
 import { CarritoComprasContext, CarritoVentasContext } from "../../context/CarritoContext";
 import "./style.css";
 

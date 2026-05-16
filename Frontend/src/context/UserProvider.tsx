@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { UserContext } from "./UserContext";
+import type { ReactNode } from "react";
 
-export const UserProvider = ({ children }: any) => {
+export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 

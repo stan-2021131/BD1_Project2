@@ -1,4 +1,4 @@
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UseUser";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children, requireAdmin }) => {

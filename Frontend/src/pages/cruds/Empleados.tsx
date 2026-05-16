@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/Api";
 import EmpleadoRow from "../../components/Rows/EmpleadoRow";
 import EmpleadoForm from "../../components/Forms/EmpleadoForm";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UseUser";
 import useAlert from "../../hooks/useAlert";
 import Alert from "../../components/Alert/Alert";
 import "./style.css";

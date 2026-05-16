@@ -1,5 +1,5 @@
 import { api } from "../../services/Api";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UseUser";
 import "./style.css";
 
 const ClienteRow = ({ cliente, onSelect, refresh, onSuccess, onError, onClear }: any) => {

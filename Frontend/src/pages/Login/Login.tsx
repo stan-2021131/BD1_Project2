@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/Api";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UseUser";
 import "./style.css";
 
 const Login = () => {
