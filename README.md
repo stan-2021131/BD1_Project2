@@ -108,6 +108,14 @@ El backend proporciona una API REST estructurada que aísla la capa de datos del
 - **Manejo Estandarizado de Errores:** Las respuestas incluyen códigos de estado HTTP precisos (`200`, `400`, `404`, `500`) y cargas útiles en formato JSON con mensajes de error descriptivos.
 - **Transaccionalidad:** Ejecución de operaciones críticas mediante transacciones SQL estructuradas.
 
+### Documentación API
+
+La colección completa de endpoints utilizados por el sistema se encuentra disponible en:
+
+```text
+Documentacion/Backend/hoppscotch_collection_proyecto2.json
+```
+
 ## Base de Datos
 
 Se utiliza PostgreSQL con un diseño relacional optimizado, prescindiendo del uso de ORMs para mantener un control declarativo sobre las consultas y garantizar la integridad de las transacciones.
@@ -144,7 +152,9 @@ Todo el ecosistema de la aplicación se despliega mediante contenedores, asegura
    docker compose up --build
    ```
 
-   _Nota: Durante este proceso, el contenedor de Frontend compilará la aplicación y ejecutará las pruebas unitarias correspondientes automáticamente. El sistema inicializará y poblará la base de datos sin requerir pasos adicionales._
+```
+
+_Nota: Durante este proceso, el contenedor de Frontend compilará la aplicación y ejecutará las pruebas unitarias correspondientes automáticamente. El sistema inicializará y poblará la base de datos sin requerir pasos adicionales._
 
 3. **Acceso a los Servicios:**
    Una vez finalizada la inicialización, los servicios estarán disponibles en los siguientes accesos locales:
@@ -152,3 +162,4 @@ Todo el ecosistema de la aplicación se despliega mediante contenedores, asegura
    - **API REST (Backend):** `http://localhost:3000`
 
 Para detener los servicios, utilice la combinación `Ctrl+C` en la terminal activa, o en su defecto, ejecute el comando `docker compose down`.
+```
