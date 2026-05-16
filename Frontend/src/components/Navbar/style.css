@@ -1,57 +1,198 @@
 .navbar {
+
+    width: 100%;
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
-    padding: 12px 20px;
+    gap: 20px;
 
-    background-color: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: var(--shadow);
+    padding: 16px 24px;
 
-    flex-wrap: wrap;
+    background-color:
+        var(--color-surface);
+
+    border-bottom:
+        1px solid var(--color-border);
+
+    box-shadow:
+        var(--shadow);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
 }
 
-/* IZQUIERDA */
-.navbar-left {
-    flex: 1;
+/* ============================= */
+/* TOP */
+/* ============================= */
+
+.navbar-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 16px;
 }
 
 .navbar-left h3 {
-    font-size: 16px;
-    font-weight: 500;
+
+    margin: 0;
+
+    font-size: 1rem;
+
+    font-weight: 600;
 }
 
-/* DERECHA */
+/* ============================= */
+/* MENU BUTTON */
+/* ============================= */
+
+.menu-btn {
+
+    display: none;
+
+    background: transparent;
+
+    border: none;
+
+    color: var(--color-text);
+
+    font-size: 1.4rem;
+
+    cursor: pointer;
+
+    padding: 4px 8px;
+}
+
+/* ============================= */
+/* LINKS */
+/* ============================= */
+
 .navbar-right {
+
     display: flex;
-    gap: 16px;
+
     align-items: center;
 
+    gap: 10px;
+
     flex-wrap: wrap;
+
+    margin-top: 0;
+
     justify-content: flex-end;
+
+    flex: 1;
 }
 
-/* LINKS */
 .navbar-right a,
-.navbar-right .link {
+.logout {
+
     text-decoration: none;
+
     color: var(--color-text-muted);
-    font-size: 14px;
-    cursor: pointer;
-    transition: var(--transition);
+
+    font-size: 0.92rem;
+
+    font-weight: 500;
+
+    padding:
+        8px 12px;
+
+    border-radius:
+        var(--radius);
+
+    transition:
+        var(--transition);
 
     white-space: nowrap;
+
+    cursor: pointer;
 }
 
 .navbar-right a:hover,
-.navbar-right .link:hover {
-    color: var(--color-primary);
+.logout:hover {
+
+    background-color:
+        rgba(255,255,255,0.05);
+
+    color:
+        var(--color-primary);
+}
+
+/* ACTIVE */
+
+.navbar-right a.active {
+
+    background-color:
+        var(--color-primary);
+
+    color: white;
 }
 
 /* LOGOUT */
+
 .logout {
-    color: var(--color-danger);
-    cursor: pointer;
-    font-weight: 500;
+
+    color:
+        var(--color-danger);
+
+    font-weight: 600;
+}
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+    }
+
+    .navbar-top {
+        width: 100%;
+    }
+
+    .menu-btn {
+
+        display: block;
+    }
+
+    .navbar-right {
+
+        display: none;
+
+        width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        margin-top: 16px;
+    }
+
+    .navbar-right.open {
+
+        display: flex;
+    }
+
+    .navbar-right a,
+    .logout {
+
+        width: 100%;
+
+        text-align: center;
+    }
 }
