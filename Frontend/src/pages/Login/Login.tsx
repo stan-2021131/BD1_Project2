@@ -34,44 +34,102 @@ const Login = () => {
     return (
         <div className="login-container">
 
-            <div className="login-card">
-                <h1 className="login-title">Sistema de Inventarios</h1>
-                <h2 className="login-subtitle">Iniciar Sesión</h2>
+        <div className="login-layout">
 
-                <form onSubmit={handleSubmit} className="login-form">
+            {/* IZQUIERDA */}
+            <div className="login-hero">
+
+                <img
+                    src="../../../src/assets/tienda.jpg"
+                    alt="Tienda"
+                    className="login-image"
+                />
+
+                <div className="login-overlay">
+
+                    <h1>
+                        Sistema de Inventario
+                    </h1>
+
+                    <p>
+                        Gestión moderna de ventas,
+                        compras e inventario.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {/* DERECHA */}
+            <div className="login-card">
+
+                <h2 className="login-subtitle">
+                    Iniciar Sesión
+                </h2>
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="login-form"
+                >
 
                     <div className="form-group">
-                        <label className="form-label">Usuario</label>
+
+                        <label className="form-label">
+                            Usuario
+                        </label>
+
                         <input
                             className="form-input"
                             type="text"
                             value={usuario}
-                            onChange={(e) => setUsuario(e.target.value)}
+                            onChange={(e) =>
+                                setUsuario(e.target.value)
+                            }
                             required
                         />
+
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Contraseña</label>
+
+                        <label className="form-label">
+                            Contraseña
+                        </label>
+
                         <input
                             className="form-input"
                             type="password"
                             value={contrasena}
-                            onChange={(e) => setContrasena(e.target.value)}
+                            onChange={(e) =>
+                                setContrasena(e.target.value)
+                            }
                             required
                         />
+
                     </div>
 
-                    {error && <p className="login-error">{error}</p>}
+                    {error && (
+                        <p className="login-error">
+                            {error}
+                        </p>
+                    )}
 
-                    <button className="form-btn login-btn" type="submit">
-                        {loading ? "Ingresando..." : "Ingresar"}
+                    <button
+                        className="form-btn login-btn"
+                        type="submit"
+                    >
+                        {loading
+                            ? "Ingresando..."
+                            : "Ingresar"}
                     </button>
 
                 </form>
+
             </div>
 
         </div>
+
+    </div>
     );
 };
 
