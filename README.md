@@ -6,7 +6,8 @@ El sistema fue desarrollado con un enfoque principal en la arquitectura frontend
 
 ## Enlaces del Proyecto
 
-- App en producción:
+- Frontend: https://inventario.sergiotan.online
+- API: https://inventario.sergiotan.online/api
 
 ## Estructura del Proyecto
 
@@ -152,9 +153,7 @@ Todo el ecosistema de la aplicación se despliega mediante contenedores, asegura
    docker compose up --build
    ```
 
-```
-
-_Nota: Durante este proceso, el contenedor de Frontend compilará la aplicación y ejecutará las pruebas unitarias correspondientes automáticamente. El sistema inicializará y poblará la base de datos sin requerir pasos adicionales._
+Nota: Durante este proceso, el contenedor de Frontend compilará la aplicación y ejecutará las pruebas unitarias correspondientes automáticamente. El sistema inicializará y poblará la base de datos sin requerir pasos adicionales._
 
 3. **Acceso a los Servicios:**
    Una vez finalizada la inicialización, los servicios estarán disponibles en los siguientes accesos locales:
@@ -162,4 +161,52 @@ _Nota: Durante este proceso, el contenedor de Frontend compilará la aplicación
    - **API REST (Backend):** `http://localhost:3000`
 
 Para detener los servicios, utilice la combinación `Ctrl+C` en la terminal activa, o en su defecto, ejecute el comando `docker compose down`.
+
+---
+
+## Infraestructura y Despliegue en Producción
+
+La aplicación se encuentra desplegada públicamente sobre una máquina virtual Linux en Google Cloud Platform (GCP), utilizando una arquitectura basada en contenedores Docker y un proxy inverso mediante Nginx.
+
+### Tecnologías y Servicios Utilizados
+
+- **Google Cloud Platform (GCP):**
+  - Máquina virtual Ubuntu LTS utilizando Compute Engine.
+  - IP pública estática para exposición estable de servicios.
+
+- **Docker y Docker Compose:**
+  - Orquestación completa de frontend, backend y base de datos.
+  - Contenedores persistentes y reinicio automático configurado.
+
+- **Nginx Reverse Proxy:**
+  - Enrutamiento centralizado del tráfico HTTP.
+  - Proxy de solicitudes hacia frontend y backend.
+  - Separación de servicios internos y exposición segura de endpoints públicos.
+
+- **Cloudflare DNS:**
+  - Administración de DNS y subdominios.
+  - Proxy y protección básica de tráfico externo.
+  - Integración preparada para HTTPS y escalabilidad futura.
+
+### Arquitectura General de Producción
+
+```text
+Internet
+   ↓
+Cloudflare DNS
+   ↓
+Google Cloud VM
+   ↓
+Nginx Reverse Proxy
+   ├── Frontend React/Vite
+   ├── Backend Node.js/Express
+   └── PostgreSQL (red privada Docker)
 ```
+
+### Consideraciones de Seguridad Implementadas
+
+- La base de datos PostgreSQL no se encuentra expuesta públicamente.
+- El acceso SSH se realiza mediante autenticación con claves públicas.
+- Los servicios internos son accesibles únicamente desde la red interna Docker.
+- La exposición pública se limita al proxy Nginx.
+
